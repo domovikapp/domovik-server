@@ -1,0 +1,12 @@
+Hello and welcome to Domovik!
+
+Please follow this link to confirm your e-mail address and activate your account:
+
+<%= @url %>
+
+Best regards,
+
+The Domovik team.
+
+--
+https://domovik.app

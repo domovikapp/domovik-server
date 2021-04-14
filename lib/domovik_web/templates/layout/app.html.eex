@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, minimum-scale=0.5"/>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <title>Domovik</title>
+    <link rel="stylesheet" href="<%= Routes.static_path(@conn, "/css/app.css") %>"/>
+    <link rel="icon" type="image/png" sizes="96x96" href="<%= Routes.static_path(@conn, "/images/favicon.png") %>">
+    <script defer type="text/javascript" src="<%= Routes.static_path(@conn, "/js/app.js") %>"></script>
+  </head>
+  <body>
+    <div id="container">
+      <%= if Pow.Plug.current_user(@conn) do %>
+        <nav>
+          <div class="sub-nav">
+            <%= link("Browsers",
+                to: Routes.browser_path(@conn, :index),
+                class: [Domovik.Helpers.active_class(@conn, Routes.browser_path(@conn, :index))]) %>
+            <%= link("Reading Lists",
+                to: Routes.list_path(@conn, :index),
+                class: [Domovik.Helpers.active_class(@conn, Routes.list_path(@conn, :index))]) %>
+            <%= link("Bookmarks",
+                to: Routes.bookmarks_path(@conn, :index),
+                class: [Domovik.Helpers.active_class(@conn, Routes.bookmarks_path(@conn, :index))]) %>
+          </div>
+          <div class="sub-nav minor-nav">
+            <%= link("My Account",
+                to: Routes.user_path(@conn, :settings),
+                class: [Domovik.Helpers.active_class(@conn, Routes.user_path(@conn, :settings))]) %>
+            <%= link "Logout", to: Routes.pow_session_path(@conn, :delete), method: :delete, class: "logout" %>
+          </div>
+        </nav>
+      <% end %>
+      <main>
+        <%= if Pow.Plug.current_user(@conn) do %>
+          <%= if Pow.Plug.current_user(@conn).subscription == "unsubscribed" do %>
+            <p class="alert alert-danger" role="alert">
+              Your subscription has expired.<br>
+              <%= link "❯ Manage your subscription", to: Routes.user_path(@conn, :settings) %>
+            </p>
+          <% end %>
+        <% end %>
+
+        <p id="alert-info" class="alert alert-info" role="alert"><%= get_flash(@conn, :info) %></p>
+        <p id="alert-error" class="alert alert-danger" role="alert"><%= get_flash(@conn, :error) %></p>
+        <%= @inner_content %>
+      </main>
+    </div>
+  </body>
+</html>

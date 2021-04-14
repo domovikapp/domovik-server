@@ -1,0 +1,94 @@
+#+html: <p align="center"><a href="https://domovik.app"><img src="logos/logo.png"></a></p>
+
+#+html: <p align="center"><a href="https://domovik.app">Official Website</a> | <a href="https://github.com/domovikapp/domovik-server/issues">Report a bug</a></p>
+
+* What is Domovik?
+Domovik is a cross-browser synchronization service, letting you seamlessly access *Tabs*, *Bookmarks*, and *Reading Lists* from any connected browser.
+
+[[https://raw.githubusercontent.com/domovikapp/domovik-webext/master/sshots/browsers.png]]
+
+The companion WebExtension [[https://github.com/domovikapp/domovik-webext][is available here]]
+
+A walk-through of its main features is available [[https://domovik.app][on the official website]].
+
+If you do not wish to self-host Domovik or would like to support the project, consider using [[https://domovik.app/#try][our official instance]].
+
+* Why Domovik?
+Domovik is an alternative for the synchronisation services already integrated in some browser (/e.g./ [[https://www.mozilla.org/firefox/sync/][Firefox Sync]] or [[https://www.google.com/chrome/anywhere/][Chrome anywhere]]) for people who want to:
+- synchronise data across *different browsers*;
+- *self-host* their synchronization engine;
+- synchronize data from browsers which don't have a sync service (/e.g./ [[https://qutebrowser.org/][Qutebrowser]], [[https://nyxt.atlas.engineer/][Nyxt]], etc.);
+- integrate web synchronization deeper into their workflow with out-of-browser handling (coming soon).
+
+*** Features
+**** Tabs
+Domovik synchronizes all the tabs open (in non-private navigation mode) on all of your browsers. They can then be accessed either through the server web interface, or /via/ the browser extension.
+
+[[https://raw.githubusercontent.com/domovikapp/domovik-webext/master/sshots/browsers.png-small.png]]
+**** Bookmarks
+Compared to many other bookmarks manager, Domovik does not aim at replacing the bookmarks system integrated in your browser. It merely copies them to the synchronization server, from where your other browsers can access them /via/ the browser extension. You can also access them through the web interface of the server.
+
+[[https://raw.githubusercontent.com/domovikapp/domovik-webext/master/sshots/bookmarks.png-small.png]]
+**** Reading Lists
+Reading Lists are lists of transient links that are created from the menu of the companion extension, then disappear as soon as you open them, either from the extension or from the server web interface. They can be used /e.g./ as a way to temporarily store a set of tabs, as TOREAD lists, as a way to temporarily gather some thematic pages, etc.
+
+[[https://raw.githubusercontent.com/domovikapp/domovik-webext/master/sshots/lists.png-small.png]]
+**** Commands
+Domovik provides a way to send asynchronous commands from a browser to another one. It is currently only used to send a page to another browser, but new features should come.
+
+[[https://domovik.app/images/sendlink.png]]
+**** Privacy First
+Domovik uses an end-to-end encryption scheme such that none of your browsing data ever go in clear through the synchronization server. The advantage is that your privacy is safe; the drawback is that all of your data being encrypted with a key derived from your password, the loss of your password means the loss of all of your synchronized data.
+
+* Install Domovik
+** General requirements
+First, install the following requirements:
+1. [[https://elixir-lang.org/install.html][Install Elixir]]
+2. Install node.js
+  + [[https://nodejs.org/en/download/package-manager/][from your package manager]]
+  + [[https://nodejs.org/en/download/][manually]]
+3. [[https://www.postgresql.org/download/][Install PostgreSQL]]
+
+Then, clone the Domovik repo: =git clone https://github.com/domovikapp/domovik-server=. The following commands are relative to the root of the cloned repo.
+
+** Development
+1. Configure your database settings -- /i.e./ username, password & hostname for TCP access or socket & username for socket access -- in =config/dev.exs=;
+2. Setup the project with =mix setup=;
+3. generate development self-signed SSL certificates =mix phx.gen.cert=;
+4. start the server with =mix phx.server=.
+
+Domovik is now available at =http://127.0.0.1:4000/session/new= and =https://127.0.0.1:4001/session/new=.
+
+** Production
+1. Set the environment variable =MIX_ENV= to =prod=.
+2. Copy the =config/prod.secret.exs.template= to =config/prod.secret.exs=. In it:
+   - configure your [[https://hexdocs.pm/bamboo/readme.html#using-adapters][Bamboo mailing adapter]] of choice in =config/prod.exs= -- a mailer is required for registration confirmation and password reset;
+   - change any other setting at your discretion.
+3. Create a PostgreSQL users with the permission to create databases and set the environment variable =DATABASE_URL= to =ecto://[USER]:[PASSWORD]@[HOST]/[DATABASE]=.
+4. Set the environment variable =SECRET_KEY= to /e.g./ the output of =mix phx.gen.secret=.
+5. Set =admin_username= and =admin_password= in =config/prod.exs=.
+6. Optionally, set the environment variable =PORT= to the desired TCP port (defaults to 4000).
+7. Setup the project with =mix setup=.
+8. Build the web assets with =npm run deploy --prefix ./assets && mix phx.digest=.
+9. Follow [[https://hexdocs.pm/pow/production_checklist.html#required-use-a-persistent-cache-store][the instructions]] to configure [[https://powauth.com/][Pow]], the authentication library.
+10. Finally, launch the server with =mix phx.server=.
+
+You can then either directly expose [[https://hexdocs.pm/phoenix/using_ssl.html][the bundled HTTP server]], or use a reverse proxy such as /e.g./ [[https://docs.nginx.com/nginx/admin-guide/web-server/reverse-proxy/][Nginx]].
+
+Please note that due to JS cryptography APIs being only available in safe contexts, Domovik should always be accessed over HTTPS.
+
+** Docker
+Coming soon !
+
+* Credits
+Domovik is built around the following technologies:
+- the [[https://elixir-lang.org/][Elixir]] language;
+- the [[https://www.phoenixframework.org/][Phoenix]] web framework;
+- the [[https://webpack.js.org/][Webpack]] bundler;
+- the [[https://www.postgresql.org/][PostgreSQL]] database;
+- the [[https://sass-lang.com][SASS]] CSS preprocessor.
+
+Fonts used are [[https://indestructibletype.com/Jost.html][Jost*]] and [[https://rsms.me/inter/][Inter]].
+
+* License
+Domovik is available under the [[http://www.gnu.org/licenses/agpl-3.0.html][AGPLv3 license]], as found in the LICENSE text file.

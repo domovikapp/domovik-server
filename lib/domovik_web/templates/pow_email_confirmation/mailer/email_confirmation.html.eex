@@ -1,0 +1,6 @@
+<%= content_tag(:h3, "Hello and welcome to Domovik") %>
+<%= content_tag(:p, "Please follow this link to confirm your e-mail address and activate your Domovik account:") %>
+<%= content_tag(:p, link(@url, to: @url)) %>
+
+<p>Best regards,</p>
+<p>The <%= link("Domovik", to: "https://domovik.app") %> team</p>

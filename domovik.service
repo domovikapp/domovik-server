@@ -1,0 +1,16 @@
+[Unit]
+Description=Domovik Server
+After=network.target
+
+[Service]
+User=SOMEONE
+Group=SOMEGROUP
+ExecStart=mix phx.server
+WorkingDirectory=/SOMEWHERE/domovik-server
+Environment=MIX_ENV=prod
+Environment=PORT=SOMEPORT
+Environment=DATABASE_URL="ecto://USER:PWD@SERVER/DATABASE"
+Environment=SECRET_KEY_BASE="RESULT OF mix phx.gen.secret"
+
+[Install]
+WantedBy=multi-user.target

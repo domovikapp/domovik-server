@@ -1,0 +1,27 @@
+<script type="text/javascript" src="<%= Routes.static_path(@conn, "/js/reset_password_edit.js") %>"></script>
+<%= if @changeset.action do %>
+  <div class="alert alert-danger">
+    <p>Something went wrong! Please check the errors below.</p>
+  </div>
+<% end %>
+
+<div class="centered-form">
+  <h1>Reset password</h1>
+
+  <%= form_for @changeset, @action, [as: :user, onsubmit: "return doSubmit(this);"], fn f -> %>
+
+    <%= label f, :passphrase, "Password" %>
+    <%= error_tag f, :password %>
+    <%= hidden_input f, :password %>
+    <%= password_input f, :passphrase, name: "" %>
+
+    <%= label f, :passphrase_confirmation, "Password confirmation" %>
+    <%= error_tag f, :password_confirmation %>
+    <%= hidden_input f, :password_confirmation %>
+    <%= password_input f, :passphrase_confirmation, name: "" %>
+
+    <%= submit "Change my password" %>
+  <% end %>
+
+  <p><%= link "Sign in", to: Routes.pow_session_path(@conn, :new) %></p>
+</div>

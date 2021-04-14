@@ -1,0 +1,19 @@
+.reading-list {
+    & ~ & {
+        margin-top: 3rem;
+    }
+
+    .read-link {
+        @extend %link-in-list;
+    }
+
+    .header-with-delete {
+        h2 {
+            margin-bottom: 1rem;
+        }
+    }
+}
+
+#new-list-form {
+    @extend .isolated-input;
+}

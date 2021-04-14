@@ -1,0 +1,14 @@
+<h1>Show Browser</h1>
+
+<h1>Tabs</h1>
+<ul>
+  <%= for t <- @browser.tabs |> Enum.sort_by(fn t -> t.index end) do %>
+    <li>
+      <img src="<%= t.favicon %>"/>
+      <%= link t.title, to: t.url, class: [(if t.active, do: "current-link", else: "")] %>
+    </li>
+  <% end %>
+</ul>
+
+<span><%= link "Edit", to: Routes.browser_path(@conn, :edit, @browser) %></span>
+<span><%= link "Back", to: Routes.browser_path(@conn, :index) %></span>

@@ -1,0 +1,92 @@
+.browser {
+    margin-bottom: 2rem;
+    h2 {
+        margin-bottom: 0rem;
+    }
+
+    .browser-infos {
+        // @extend %indented;
+        display: block;
+        color: $light-grey;
+        margin-bottom: 1rem;
+    }
+}
+
+.header-with-delete {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+
+    h1 {
+        margin: 0;
+        padding: 0;
+        display: inline;
+    }
+}
+
+
+.tab {
+    @extend %link-in-list;
+    padding-left: 0.5rem;
+
+    &.pinned {
+        padding-left: 0.4rem;
+        border-left: 0.2rem solid $light;
+    }
+
+    &.current-tab {
+        background-color: $light;
+        a {
+            color: $white;
+        }
+    }
+}
+
+#dl-tabs {
+    display: flex;
+    justify-content: center;
+
+    .dl-tab {
+        cursor: pointer;
+        padding: 0.2rem 0.5rem;
+        border: 1px solid $link;
+        color: $link;
+        &.selected {
+            color: $white;
+            background-color: $link;
+        }
+    }
+}
+
+.downloads {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin: 2rem 0 2rem 0;
+
+    a {
+        display: block;
+        text-align: center;
+        padding: 1rem 2rem;
+        @media screen and (max-width: $width-toggle) {
+            padding: 1rem 1rem;
+        }
+
+        img {
+            width: 4rem;
+        }
+        h4 {
+            margin-top: 0;
+            text-align: center;
+            color: $link;
+        }
+
+        &:hover {
+            h4 {
+                transition-duration: 0.2s;
+                color: $accent;
+            }
+        }
+    }
+}

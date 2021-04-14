@@ -1,0 +1,33 @@
+<script type="text/javascript" src="<%= Routes.static_path(@conn, "/js/bookmarks.js") %>"></script>
+<div id="all-tags">
+  <%= for browser <- @browsers do %>
+    <div class="tag">
+      <%= if browser.uuid in @current_browsers do %>
+        <%= link("#{browser.name}",
+            to: Routes.bookmarks_path(@conn, :index, %{bs: @current_browsers -- [browser.uuid]}),
+            title: "Filter bookmarks from #{browser.name}",
+            class: "toggle-tag selected") %>
+      <% else %>
+        <%= link("#{browser.name}",
+            to: Routes.bookmarks_path(@conn, :index, %{bs: @current_browsers ++ [browser.uuid]}),
+            title: "Filter bookmarks from #{browser.name}",
+            class: "toggle-tag") %>
+      <% end %>
+    </div>
+  <% end %>
+</div>
+
+<div id="bookmarks" ontouchmove>
+  <%= for b <- @bookmarks do %>
+    <div class="bookmark">
+      <a data-url="<%= b.url %>"
+         data-title="<%= b.title %>"
+         href="">
+        [encrypted]
+      </a>
+      <span class="tags-list">
+        <span class="tag"><%= b.browser.name %></span>
+      </span>
+    </div>
+  <% end %>
+</div>

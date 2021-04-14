@@ -1,0 +1,20 @@
+<script type="text/javascript" src="<%= Routes.static_path(@conn, "/js/session_new.js") %>"></script>
+<div class="centered-form" style="margin-top: 2rem;">
+  <h1>Log in to Дomovik</h1>
+  <%= form_for @changeset, @action, [as: :user], fn f -> %>
+    <%= label f, Pow.Ecto.Schema.user_id_field(@changeset) %>
+    <%= email_input f, Pow.Ecto.Schema.user_id_field(@changeset), autofocus: true %>
+
+    <%= hidden_input f, :password %>
+
+    <%= label f, :passphrase, "Password" %>
+    <%= password_input f, :passphrase, name: "" %>
+
+    <div>
+      <%= submit "Sign in" %>
+    </div>
+  <% end %>
+  <p><%= link "Forgot your password?", to: Routes.pow_reset_password_reset_password_path(@conn, :new) %></p>
+
+  <p><%= link "Create an Account", to: Routes.pow_registration_path(@conn, :new) %></p>
+</div>

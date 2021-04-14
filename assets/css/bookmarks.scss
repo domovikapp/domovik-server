@@ -1,0 +1,109 @@
+#all-tags {
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: stretch;
+    flex-wrap: wrap;
+
+    // let the multiple rows breathe a bit
+    & > * {
+        margin-top: 1rem;
+    }
+
+    .tag {
+        font-family: $sans-serif;
+        padding: 0;
+        margin-right: 1rem;
+        border-radius: 1px;
+
+        .toggle-tag, .remove-tag {
+            border: solid 1px $accent;
+            margin: 0;
+            padding: 0.1rem 0.3rem;
+        }
+        .toggle-tag {
+            color: $mid-grey;
+            &.selected, &:hover {
+                color: $white;
+                background-color: $accent;
+                transition: color, background-color 0.2s;
+            }
+        }
+        .remove-tag {
+            border-left: none;
+        }
+    }
+}
+
+
+#tag-input {
+    @extend .isolated-input;
+}
+
+
+#bookmarks {
+    .bookmark {
+        @extend %link-in-list;
+
+        margin-left: 0;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        .bookmark-text {
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            img {
+                vertical-align: middle;
+            }
+        }
+        .tags-list {
+            @media screen and (max-width: $width-toggle) {
+                display: none;
+            }
+            white-space: nowrap;
+            .tag {
+                font-family: $sans-serif;
+                padding: 0px .4rem;
+                text-decoration: none;
+                color: $light-grey;
+            }
+        }
+    }
+}
+
+
+.dropdown-menu {
+    display: inline-block;
+
+    .dropdown-trigger {
+        cursor: pointer;
+        padding: 1rem;
+    }
+    &:hover .dropdown-trigger {
+        color: $background;
+        background-color: $light;
+    }
+
+    .dropdown-menu-content {
+        display: none;
+        position: absolute;
+        background-color: $background;
+        z-index: 0;
+        border: 1px solid $light;
+
+        a {
+            cursor: pointer;
+            padding: 0.2rem 0.5rem;
+            display: block;
+
+            &:hover {
+                color: $white;
+                background-color: $light;
+            }
+        }
+    }
+
+    &:hover .dropdown-menu-content {
+        display: block;
+    }
+}

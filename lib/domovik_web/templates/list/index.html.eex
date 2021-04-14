@@ -1,0 +1,45 @@
+<script type="text/javascript" src="<%= Routes.static_path(@conn, "/js/lists.js") %>"></script>
+
+<%= form_for @changeset, Routes.list_path(@conn, :create), [id: "new-list-form"], fn f-> %>
+<%= if @changeset.action do %>
+  <div class="alert alert-danger">
+    <p>Something went wrong! Please check the errors below.</p>
+  </div>
+<% end %>
+<%= text_input f, :name, placeholder: "Name" %>
+<%= submit "Create", class: "input-linked" %>
+<%= error_tag f, :name %>
+<% end %>
+
+<%= if length(@lists) == 0 do %>
+  <h3 class="empty">You don't have created any reading list</h3>
+<% end %>
+
+<%= for list <- @lists do %>
+  <div class="reading-list">
+    <div class="header-with-delete">
+      <h2><%= list.name %></h2>
+      <%= link("✕",
+          to: Routes.list_path(@conn, :delete, list),
+          method: :delete,
+          title: "Delete #{list.name}",
+          class: ["link-delete"],
+          data: [confirm: "Do you really want to delete this reading list and its content?"]) %>
+    </div>
+    <%= if length(list.links) == 0 do %>
+      <h4 class="empty">This reading list is empty</h4>
+    <% end %>
+    <%= for link <- list.links do %>
+      <div class="read-link">
+        <img style="vertical-align: middle;" width="16px"
+             data-url="<%= link.favicon %>"
+             src="<%= Routes.static_path(@conn, "/images/tab.png") %>"/>
+        <a data-url="<%= link.url %>"
+           data-title="<%= link.title %>"
+           href="<%= Routes.list_path(@conn, :consume_link, list.uuid, link.id) %>">
+          [encrypted]
+        </a>
+      </div>
+    <% end %>
+  </div>
+<% end %>

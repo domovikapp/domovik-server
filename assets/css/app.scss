@@ -1,0 +1,331 @@
+@import "./colors.scss";
+@import "./fonts.scss";
+
+// $serif: "Helvetica", "Segoe UI", "Verdana", sans-serif;
+$serif: "PT Serif";
+$sans-serif: "Jost", "Helvetica", sans-serif;
+$ui: "Inter", "Helvetica", "Segoe UI", "sans-serif";
+
+$width-toggle: 900px;
+
+$form-width: 25rem;
+
+@mixin hover-inverse($fg, $bg) {
+    &:hover {
+        color: $fg;
+        background-color: $bg;
+        transition-duration: 0.3s;
+    }
+}
+
+
+html {
+    margin: 0;
+    height: 100%;
+    line-height: 1.75;
+    @media screen and (max-width: $width-toggle) {
+    }
+}
+
+input:not([type="checkbox"]) {
+    font-family: $sans-serif !important;
+    -webkit-appearance: none; // iOS shenanigans
+    border-radius: 0;
+    @media screen and (max-width: $width-toggle) {
+        font-size: 18px;
+    }
+}
+input[type="checkbox"] {
+    width: auto !important;
+    &:checked {
+        background-color: $dark-grey;
+    }
+}
+
+// Various resets (looking at you, Safari...)
+button {
+    margin: 0;
+}
+
+body {
+    margin: 0;
+    background-color: $background;
+    font-family: $sans-serif;
+}
+
+button {
+    cursor: pointer;
+    font-family: $sans-serif;
+    font-size: 1rem;
+    border: 2px solid $mid-grey;
+    color: $white;
+    background-color: $mid-grey;
+    font-weight: bold;
+    box-sizing: border-box;
+    box-shadow: 2px 2px 0px $light-grey;
+
+    &.input-linked {
+        color: $mid-grey;
+        background-color: $background;
+        box-shadow: none;
+
+        @include hover-inverse($white, $mid-grey);
+
+        &:hover {
+            box-shadow: none;
+        }
+    }
+
+    &:hover {
+        color: $white;
+        transition-duration: 0.1s;
+        box-shadow: 2px 2px 0px $dark-grey;
+    }
+}
+
+h1, h2, h3, h4, h5, h6 {
+    color: $accent;
+    font-family: $sans-serif;
+}
+
+a {
+    // display: inline-block;
+    text-decoration: none;
+    color: $link;
+
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+
+    &:hover {
+        color: $dark-grey;
+    }
+
+    &.link-delete {
+        color: $light-grey;
+        padding: 0.3em;
+        @include hover-inverse($error, $background)
+    }
+    &.link-casual-delete {
+        color: $light-grey;
+        padding: 0.3em;
+        @include hover-inverse($black, $background)
+    }
+}
+
+
+#container {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    max-width: 90rem;
+    align-items: stretch;
+    flex-direction: column;
+    margin: auto;
+}
+
+main {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    flex-grow: 1;
+    @media screen and (max-width: $width-toggle) {
+        padding: 0rem 0.5rem;
+    }
+    @media screen and (min-width: $width-toggle) {
+        padding: 0rem 1rem;
+        min-width: 30rem;
+    }
+
+    h1 {
+        margin-top: 0;
+    }
+}
+
+nav {
+    white-space: nowrap;
+    font-family: $sans-serif;
+    // font-size: 1.3rem;
+
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid $link;
+    @media screen and (min-width: $width-toggle) {
+        flex-direction: row;
+        justify-content: space-between;
+        margin-bottom: 1rem;
+    }
+    @media screen and (max-width: $width-toggle) {
+        /* flex-direction: column-reverse; */
+        overflow: auto;
+        padding: 0;
+    }
+
+    .sub-nav {
+        display: flex;
+    }
+    .minor-nav {
+        font-weight: norma;
+    }
+
+    a {
+        // font-weight: bold;
+        color: $light;
+        display: inline-block;
+        padding: 0.3rem 1.3rem;
+        @media screen and (max-width: $width-toggle) {
+            padding: 0.7rem 1rem;
+        }
+
+        &.logout {
+            color: $light-grey;
+        }
+        &:hover {
+            color: $accent;
+            // background-color: $link;
+            // color: $white;
+            transition-duration: 0.2s;
+        }
+        &.active {
+            color: $accent;
+            font-weight: bold;
+        }
+    }
+}
+
+
+.current-link {
+    font-weight: bold;
+}
+
+%indented {
+    @media screen and (min-width: $width-toggle) {
+        margin-left: 1rem;
+    }
+}
+
+
+%link-in-list {
+    @extend %indented;
+    padding: 0.3rem;
+    color: $link;
+
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+
+    img {
+        vertical-align: middle;
+        width: 1rem;
+        height: 1rem;
+        margin-right: 0.5rem;
+    }
+    & a:hover {
+        color: $dark-grey;
+    }
+}
+
+
+.form {
+    @media screen and (max-width: $width-toggle) {
+        width: 100%;
+    }
+
+    h1 {
+        text-align: center;
+    }
+    form {
+        label {
+            color: $dark-grey;
+            font-weight: bold;
+            display: inline-block;
+            margin-top: 2rem;
+            display: block;
+        }
+        input {
+            max-width: $form-width;
+            display: block;
+            font-family: $serif;
+            box-sizing: border-box;
+            background-color: #d3c7a2;
+            border: 1px solid #555;
+            margin-top: 1rem;
+            margin-bottom: 1rem;
+            width: 100%;
+            padding: 0.5rem;
+        }
+
+        button {
+            max-width: $form-width;
+            width : 100%;
+            margin-top: 2rem;
+            margin-bottom: 0.5rem;
+            padding: 0.5rem;
+        }
+    }
+
+    p {
+        /* font-weight: bold; */
+    }
+}
+
+
+.centered-form {
+    @extend .form;
+
+    form {
+        max-width: $form-width;
+        margin: auto;
+    }
+
+    p {
+        font-weight: normal;
+        text-align: center;
+    }
+
+}
+
+.isolated-input {
+    display: flex;
+    margin-bottom: 2rem;
+    align-items:stretch;
+
+    input {
+        padding: 0.5rem;
+        background-color: $background;
+        color: $dark-grey;
+        border: 1px solid;
+        border-right: none;
+        margin: 0;
+    }
+    .button {
+        @include hover-inverse($white, $mid-grey)
+    }
+
+    @media screen and (max-width: $width-toggle) {
+        margin-top: 1rem;
+        margin-bottom: 1rem;
+        width: 100%;
+        input {
+            flex-grow: 1;
+        }
+    }
+}
+
+h3.empty {
+    text-align: center;
+    color: $light-grey;
+    font-style: italic;
+}
+h4.empty {
+    text-align: center;
+    color: $light-grey;
+    font-style: italic;
+    font-weight: normal;
+}
+
+@import "./notifications.scss";
+
+@import "./browsers.scss";
+@import "./reading_lists.scss";
+@import "./bookmarks.scss";
+@import "./settings.scss";

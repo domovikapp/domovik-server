@@ -1,0 +1,35 @@
+<%= if @changeset.action do %>
+  <div class="alert alert-danger">
+    <p>Something went wrong! Please check the errors below.</p>
+  </div>
+<% end %>
+<script type="text/javascript" src="<%= Routes.static_path(@conn, "/js/registration_new.js") %>"></script>
+<div class="centered-form ">
+  <h1>Sign up to Дomovik</h1>
+  <%= form_for @changeset, @action, [as: :user, onsubmit: "return doSubmit(this);"], fn f -> %>
+
+    <%= label f, Pow.Ecto.Schema.user_id_field(@changeset) %>
+    <%= error_tag f, Pow.Ecto.Schema.user_id_field(@changeset) %>
+    <%= email_input f, Pow.Ecto.Schema.user_id_field(@changeset), autofocus: true %>
+
+    <%= label f, :passphrase, "Password" %>
+    <%= error_tag f, :password %>
+    <%= hidden_input f, :password %>
+    <%= password_input f, :passphrase, name: "" %>
+
+    <%= label f, :passphrase_confirmation, "Password confirmation" %>
+    <%= error_tag f, :password_confirmation %>
+    <%= hidden_input f, :password_confirmation %>
+    <%= password_input f, :passphrase_confirmation, name: "" %>
+
+    <%= checkbox f, :want_emails, style: "display: inline-block; margin-right: 0.5rem;" %>
+    <%= label f, :want_emails, "Receive news about Domovik by email", style: "display: inline-block;" %>
+    <div>
+      <%= submit "Register" %>
+    </div>
+  <% end %>
+
+  <p>or</p>
+
+  <p><%= link "Login", to: Routes.pow_session_path(@conn, :new) %></p>
+</div>

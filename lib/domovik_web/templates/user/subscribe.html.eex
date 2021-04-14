@@ -1,0 +1,32 @@
+<script src="https://js.stripe.com/v3/"></script>
+
+<button id="monthly">Monthly</button>
+<button id="yearly">Yearly</button>
+
+<script type="text/javascript">
+ function createCheckoutSession(plan) {
+     return fetch(`/subscription/${plan}`)
+         .then(result => result.json());
+ }
+
+ function handleResult(result) {
+     if (result.error) {
+         var displayError = document.getElementById("alert-error");
+         displayError.textContent = result.error.message;
+     }
+ }
+
+ var stripe = Stripe('pk_test_51H5xRXBBhtlQgHy9T5ncDzF5kQRwh93kM79r97TMC1XCOf8sTFSqwfACcI5wuz5hKpbOTTrap1Nu1ZZPLCkmWW4u00t7jMVXau');
+
+ ["monthly", "yearly"].forEach(plan => {
+     document
+         .getElementById(plan)
+         .addEventListener("click", function(e) {
+             createCheckoutSession(plan)
+                 .then(session => stripe
+                     .redirectToCheckout({sessionId: session.id})
+                     .then(handleResult)
+                 )
+         });
+ })
+</script>

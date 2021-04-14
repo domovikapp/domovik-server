@@ -1,0 +1,27 @@
+<div id="notices">
+  <h1>Contact</h1>
+  <p>If you encountered a bug, if you need information, if you have a question, feel free to contact us:</p>
+
+  <dl>
+    <div>
+      <dt>Email</dt>
+      <dd>contact@domovik.app</dd>
+    </div>
+
+    <!-- <div>
+         <dt>Twitter</dt>
+         <dd>@domovikapp</dd>
+         </div> -->
+    <div>
+      <dt>Github</dt>
+      <dd><a href="https://github.com/domovikapp">DomovikApp</a></dd>
+    </div>
+  </dl>
+</div>
+<footer>
+  <span>© 2020 domovik.app</span>
+  <a href="/contact">Contact</a>
+  <a href="/legal_notices">Legal notices</a>
+  <a href="/conditions">Terms and conditions of use</a>
+  <a href="/privacy">Privacy</a>
+</footer>

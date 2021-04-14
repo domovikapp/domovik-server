@@ -1,0 +1,77 @@
+<script type="text/javascript" src="<%= Routes.static_path(@conn, "/js/account.js") %>"></script>
+<div id="settings">
+  <%= unless Application.get_env(:domovik, :free_instance) do %>
+    <div class="section">
+      <h2>News</h2>
+
+      <%= form_for @conn, Routes.user_path(@conn, :news), [onclick: "this.submit()"],  fn f -> %>
+        <%= checkbox f, :want_emails, value: @user.want_emails %>
+        <%= label f, :want_emails, "Receive news about Domovik by mail" %>
+      <% end %>
+    </div>
+
+    <div class="section">
+      <h2 style="margin-top: 4rem;">Subscription</h2>
+      <%= if Pow.Plug.current_user(@conn).subscription == "unsubscribed" do %>
+        <script src="https://js.stripe.com/v3/"></script>
+
+        <div class="prices">
+          <button id="monthly">$3<sup>90</sup>/month</button>
+          <button id="yearly">$39/year</button>
+        </div>
+
+        <script type="text/javascript">
+         function createCheckoutSession(plan) {
+             return fetch(`/subscription/${plan}`)
+                 .then(result => result.json());
+         }
+
+         function handleResult(result) {
+             if (result.error) {
+                 var displayError = document.getElementById("alert-error");
+                 displayError.textContent = result.error.message;
+             }
+         }
+
+         var stripe = Stripe("<%= Application.get_env(:domovik, :stripe_public_key) %>");
+
+         ["monthly", "yearly"].forEach(plan => {
+             document
+                 .getElementById(plan)
+                 .addEventListener("click", function(e) {
+                     createCheckoutSession(plan)
+                         .then(session => stripe
+                             .redirectToCheckout({sessionId: session.id})
+                             .then(handleResult)
+                         )
+                 });
+         })
+        </script>
+      <% else %>
+        <%= link "❯ Manage your subscription", to: Routes.user_path(@conn, :stripe_portal) %>
+      <% end %>
+    </div>
+  <% end %>
+
+  <div class="section">
+    <h2 style="margin-top: 4rem;">Downloads</h2>
+    <p>
+      <%= link "Download bookmarks",
+      to: Routes.user_path(@conn, :download_bookmarks),
+      download: "bookmarks.json",
+      class: "dl" %>
+    </p>
+    <p>
+      <%= link "Download reading lists",
+      to: Routes.user_path(@conn, :download_reading_lists),
+      download: "reading_lists.json",
+      class: "dl" %>
+    </p>
+    <p>
+      <%= link "Download tabs",
+      to: Routes.user_path(@conn, :download_tabs),
+      download: "tabs.json",
+      class: "dl" %>
+    </p>
+  </div>
+</div>

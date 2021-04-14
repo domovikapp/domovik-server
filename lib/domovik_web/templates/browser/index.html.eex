@@ -1,0 +1,99 @@
+<script type="text/javascript" src="<%= Routes.static_path(@conn, "/js/browsers.js") %>"></script>
+<%= if length(@browsers) == 0 do %>
+  <h2 style="text-align: center;">Download Domovik for your browser</h2>
+  <div id="dl-tabs">
+    <span class="dl-tab selected" id="dl-tab-full" href="" onclick="setDL('full');">Domovik</span>
+    <span class="dl-tab"          id="dl-tab-lite" href="" onclick="setDL('lite')">Domovik Lite</span>
+  </div>
+  <div id="downloads-full">
+    <h4 class="empty" style="margin-top: 2rem;">Domovik Full will replace your New Tab page</h4>
+    <div class="downloads">
+      <a href="https://addons.mozilla.org/addon/domovik">
+        <img src="images/firefox.png" title="Firefox">
+        <h4>Firefox</h4>
+      </a>
+      <a href="https://chrome.google.com/webstore/detail/domovik/pojhdbdpchfmllpkhahfahigfggokofk">
+        <img src="images/chrome.png" title="Chrome & Chromium">
+        <h4>Chrome</h4>
+      </a>
+      <a href="https://microsoftedge.microsoft.com/addons/detail/domovik/dklpamlomfejjebjghaijhdedobadkca">
+        <img src="images/edge.png" title="Edge">
+        <h4>Edge</h4>
+      </a>
+      <a href="https://chrome.google.com/webstore/detail/domovik/pojhdbdpchfmllpkhahfahigfggokofk">
+        <img src="images/vivaldi.png" title="Vivaldi">
+        <h4>Vivaldi</h4>
+      </a>
+      <a href="https://chrome.google.com/webstore/detail/domovik/pojhdbdpchfmllpkhahfahigfggokofk">
+        <img src="images/brave.png" title="Brave">
+        <h4>Brave</h4>
+      </a>
+      <!-- <a href="">
+           <img src="images/opera.png" title="Opera">
+           <h4>Opera</h4>
+           </a> -->
+    </div>
+  </div>
+  <div id="downloads-lite" style="display: none">
+    <h4 class="empty" style="margin-top: 2rem;">Domovik Lite will not replace your New Tab page</h4>
+    <div class="downloads" id="downloads-lite">
+      <a href="https://addons.mozilla.org/addon/domovik-lite/">
+        <img src="images/firefox.png" title="Firefox">
+        <h4>Firefox</h4>
+      </a>
+      <a href="https://chrome.google.com/webstore/detail/domovik-lite/mbnoldhpnphahieoooiligcahajgiigo">
+        <img src="images/chrome.png" title="Chrome & Chromium">
+        <h4>Chrome</h4>
+      </a>
+      <a href="https://microsoftedge.microsoft.com/addons/detail/domovik-lite/jbfbcogeojjppeblakkdobdejfngeihh">
+        <img src="images/edge.png" title="Edge">
+        <h4>Edge</h4>
+      </a>
+      <a href="https://chrome.google.com/webstore/detail/domovik-lite/mbnoldhpnphahieoooiligcahajgiigo">
+        <img src="images/vivaldi.png" title="Vivaldi">
+        <h4>Vivaldi</h4>
+      </a>
+      <a href="https://chrome.google.com/webstore/detail/domovik-lite/mbnoldhpnphahieoooiligcahajgiigo">
+        <img src="images/brave.png" title="Brave">
+        <h4>Brave</h4>
+      </a>
+      <!-- <a href="">
+           <img src="images/opera.png" title="Opera">
+           <h4>Opera</h4>
+           </a> -->
+    </div>
+  </div>
+<% end %>
+
+<%= for browser <- @browsers do %>
+  <div class="browser">
+    <div class="header-with-delete">
+      <h2><%= browser.name %></h2>
+      <%= link("✕",
+          to: Routes.browser_path(@conn, :delete, browser),
+          method: :delete,
+          title: "Unlink #{browser.name}",
+          class: ["link-delete"],
+          data: [confirm: "Do you really want to unlink this browser?"]) %>
+    </div>
+    <em class="browser-infos">
+      <%= if browser.last_update > 0,
+      do: round(browser.last_update / 10)
+      |> DateTime.from_unix!(:second)
+      |> Timex.Format.DateTime.Formatters.Relative.lformat!("Last updated {relative}", "en"),
+      else: "Never synced" %>
+    </em>
+
+    <% windows = Enum.group_by browser.tabs, fn t -> t.window end %>
+
+    <%= for {_, tabs} <- windows do %>
+      <%= for t <- tabs |> Enum.sort_by(fn t -> t.index end) do %>
+        <div class="tab <%= if t.pinned, do: "pinned" %> <%= if t.active, do: "current-tab", else: "" %>">
+          <img data-url="<%= if t.favicon != "", do: t.favicon, else: '' %>"
+               src="<%= Routes.static_path(@conn, "/images/tab.png") %>" />
+          <a data-title="<%= t.title %>" data-url="<%= t.url %>" href="">[encrypted]</a>
+        </div>
+      <% end %>
+    <% end %>
+  </div>
+<% end %>

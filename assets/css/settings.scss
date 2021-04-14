@@ -1,0 +1,14 @@
+#settings {
+    h2 {
+        border-bottom: 1px solid $light-grey;
+    }
+}
+
+
+.prices {
+    display: flex;
+    button {
+        margin-right: 0.5rem;
+        border: 1px solid $light-grey;
+    }
+}
