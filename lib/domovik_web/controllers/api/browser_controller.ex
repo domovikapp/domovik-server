@@ -91,7 +91,7 @@ defmodule DomovikWeb.Api.V1.BrowserController do
       browser when not is_nil(browser) ->
         case Sync.upsert_tab(browser, tab) do
           {:ok, _} -> conn |> send_resp(:ok, "")
-          {:error, changeset} ->
+          {:error, _} ->
             conn |> send_resp(:not_found, "")
         end
       nil ->

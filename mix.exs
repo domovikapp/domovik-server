@@ -52,6 +52,7 @@ defmodule Domovik.MixProject do
       {:elixir_uuid, "~> 1.2"},
       {:timex, "~> 3.7"},
       {:bamboo, "~> 2.0"},
+      {:bamboo_phoenix, "~> 1.0"},
       {:stripity_stripe, "~> 2.0"}
     ]
   end

@@ -1,4 +1,12 @@
+defmodule Domovik.Users.Mailer do
+  use Bamboo.Mailer, otp_app: :domovik
+end
+
 defmodule Domovik.Users do
+  import Bamboo.Email
+  import Bamboo.Phoenix
+  use Bamboo.Phoenix, view: DomovikWeb.EmailView
+
   @moduledoc """
   This module contains functions linked to the handling of users
   """
@@ -44,6 +52,28 @@ defmodule Domovik.Users do
     Logger.info "#{user.email} is now #{status}"
     Ecto.Changeset.change(user, subscription: status)
     |> Domovik.Repo.update
+  end
+
+  def end_trial(user) do
+    new_email()
+    |> from("Domovik<contact@domovik.app>")
+    |> put_header("Reply-To", "contact@domovik.app")
+    |> to(user.email)
+    |> subject("Domovik trial will soon end")
+    |> put_html_layout({DomovikWeb.LayoutView, "email.html"})
+    |> render(:trial_end)
+    |> Domovik.Users.Mailer.deliver_later
+  end
+
+  def payment_failed(user) do
+    new_email()
+    |> from("Domovik<contact@domovik.app>")
+    |> put_header("Reply-To", "contact@domovik.app")
+    |> to(user.email)
+    |> subject("Payment failed")
+    |> put_html_layout({DomovikWeb.LayoutView, "email.html"})
+    |> render(:payment_failed)
+    |> Domovik.Users.Mailer.deliver_later
   end
 
   def unsubscribe(user) do

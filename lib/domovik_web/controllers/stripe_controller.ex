@@ -36,7 +36,7 @@ defmodule DomovikWeb.StripeController do
     Logger.info "#{customer} is now #{status}"
     case Users.get_by_customer_id(customer) do
       nil ->
-        Logger.error "no user linked to Stripe ID #{customer}"
+        Logger.error "STRIPE: no user linked to Stripe ID #{customer}"
         {:notfound, ""}
       user ->
         case status do
@@ -51,7 +51,7 @@ defmodule DomovikWeb.StripeController do
   defp handle_webhook(%{type: "customer.subscription.deleted"} = event) do
     customer = event.data.object.customer
     status = event.data.object.status
-    Logger.info "#{customer} is now #{status}"
+    Logger.info "STRIPE: #{customer} is now #{status}"
     case Users.get_by_customer_id(customer) do
       nil ->
         Logger.error "no user linked to Stripe ID #{customer}"
@@ -59,6 +59,42 @@ defmodule DomovikWeb.StripeController do
       user ->
         Users.unsubscribe(user)
         {:ok, "success"}
+    end
+  end
+
+
+  defp handle_webhook(%{type: "invoice.payment_failed"} = event) do
+    customer = event.data.object.customer
+    status = event.data.object.status
+    Logger.info "STRIPE: #{customer} is now #{status}"
+    case Users.get_by_customer_id(customer) do
+      nil ->
+        Logger.error "no user linked to Stripe ID #{customer}"
+        {:notfound, ""}
+      user ->
+        Users.payment_failed(user)
+        {:ok, "success"}
+    end
+  end
+
+
+  defp handle_webhook(%{type: "customer.subscription.trial_will_end"} = event) do
+    customer = event.data.object.customer
+    status = event.data.object.status
+    Logger.info "STRIPE: trial will soon end for #{customer} is now #{status}"
+    case Users.get_by_customer_id(customer) do
+      nil ->
+        Logger.error "STRIPE: no user linked to Stripe ID #{customer}"
+        {:notfound, ""}
+      user ->
+        case Users.end_trial(user) do
+          {:ok, _} ->
+            Logger.info "end trial email sent to #{user.email}"
+            {:ok, "success"}
+          {:error, e} ->
+            Logger.error "while sending end trial email to #{user.email}: #{e}"
+            {:error, ""}
+        end
     end
   end
 
