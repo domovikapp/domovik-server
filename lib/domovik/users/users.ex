@@ -76,7 +76,7 @@ defmodule Domovik.Users do
     |> Domovik.Users.Mailer.deliver_now
 
     case email do
-      {:ok, _, _} ->
+      {:ok, _} ->
         Logger.info "BAMBOO: email sent"
       {:error, e} ->
         Logger.error "BAMBOO: #{e}"
