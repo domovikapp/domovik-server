@@ -16,8 +16,8 @@
         <script src="https://js.stripe.com/v3/"></script>
 
         <div class="prices">
-          <button id="monthly">$3<sup>90</sup>/month</button>
-          <button id="yearly">$39/year</button>
+          <button id="monthly">$1<sup>90</sup>/month</button>
+          <button id="yearly">$19/year</button>
         </div>
 
         <script type="text/javascript">

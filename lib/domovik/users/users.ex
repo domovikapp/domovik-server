@@ -31,16 +31,16 @@ defmodule Domovik.Users do
     with {:ok, customer} <- Stripe.Customer.create(%{email: user.email }),
          {:ok, _subscription} <- Stripe.Subscription.create(%{
                customer: customer,
-               items: [%{price: Application.get_env(:domovik, :monthly_price), quantity: 1}],
+               items: [%{price: Application.get_env(:domovik, :yearly_price), quantity: 1}],
                trial_period_days: Application.get_env(:domovik, :trial_length) }),
     {:ok, user} <- Ecto.Changeset.change(user, customer_id: customer.id) |> Domovik.Repo.update
       do
       {:ok, user}
-    else
-      {:error, e} ->
-        Logger.error "Unable to register #{user.email} -- #{e}"
-      Domovik.Repo.delete(user)
-      {:error, "Unable to create a Stripe customer"}
+      else
+        {:error, e} ->
+          Logger.error "Unable to register #{user.email} -- #{e}"
+        Domovik.Repo.delete(user)
+        {:error, "Unable to create a Stripe customer"}
     end
   end
 
@@ -66,14 +66,21 @@ defmodule Domovik.Users do
   end
 
   def payment_failed(user) do
-    new_email()
+    email = new_email()
     |> from("Domovik<contact@domovik.app>")
     |> put_header("Reply-To", "contact@domovik.app")
     |> to(user.email)
     |> subject("Payment failed")
     |> put_html_layout({DomovikWeb.LayoutView, "email.html"})
     |> render(:payment_failed)
-    |> Domovik.Users.Mailer.deliver_later
+    |> Domovik.Users.Mailer.deliver_now
+
+    case email do
+      {:ok, _, _} ->
+        Logger.info "BAMBOO: email sent"
+      {:error, e} ->
+        Logger.error "BAMBOO: #{e}"
+    end
   end
 
   def unsubscribe(user) do
