@@ -18,3 +18,14 @@ window.onload = function() {
         })
     });
 }
+
+function bookmarkFilter(){
+	let bookmarks = document.getElementsByClassName("bookmark");
+	Array.from(bookmarks).forEach(bookmark => {
+		if ( bookmark.getElementsByTagName('a')[0].innerHTML.toLowerCase().indexOf(document.getElementById("search").value.toLowerCase()) == -1 ) {
+			bookmark.style.display = 'none';
+		} else {
+			bookmark.style.display = '';
+		}
+	})
+}

@@ -1,5 +1,6 @@
 <script type="text/javascript" src="<%= Routes.static_path(@conn, "/js/bookmarks.js") %>"></script>
 <div id="all-tags">
+  <input id="search" type="text" onkeyup="bookmarkFilter()" placeholder="Search bar" style="margin-right: 1em;">
   <%= for browser <- @browsers do %>
     <div class="tag">
       <%= if browser.uuid in @current_browsers do %>
