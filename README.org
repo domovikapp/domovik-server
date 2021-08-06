@@ -65,7 +65,7 @@ Domovik is now available at =http://127.0.0.1:4000/session/new= and =https://127
    - configure your [[https://hexdocs.pm/bamboo/readme.html#using-adapters][Bamboo mailing adapter]] of choice in =config/prod.exs= -- a mailer is required for registration confirmation and password reset;
    - change any other setting at your discretion.
 3. Create a PostgreSQL users with the permission to create databases and set the environment variable =DATABASE_URL= to =ecto://[USER]:[PASSWORD]@[HOST]/[DATABASE]=.
-4. Set the environment variable =SECRET_KEY= to /e.g./ the output of =mix phx.gen.secret=.
+4. Set the environment variable =SECRET_KEY_BASE= to /e.g./ the output of =mix phx.gen.secret=.
 5. Set =admin_username= and =admin_password= in =config/prod.exs=.
 6. Optionally, set the environment variable =PORT= to the desired TCP port (defaults to 4000).
 7. Setup the project with =mix setup=.
