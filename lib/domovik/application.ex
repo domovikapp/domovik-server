@@ -14,9 +14,10 @@ defmodule Domovik.Application do
       # Start the PubSub system
       {Phoenix.PubSub, name: Domovik.PubSub},
       # Start the Endpoint (http/https)
-      DomovikWeb.Endpoint
+      DomovikWeb.Endpoint,
       # Start a worker by calling: Domovik.Worker.start_link(arg)
       # {Domovik.Worker, arg}
+      Pow.Store.Backend.MnesiaCache
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html
