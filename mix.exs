@@ -33,7 +33,7 @@ defmodule Domovik.MixProject do
   # Type `mix help deps` for examples and options.
   defp deps do
     [
-      {:phoenix, "~> 1.5"},
+      {:phoenix, "~> 1.5.8"},
       {:phoenix_ecto, "~> 4.1"},
       {:ecto_sql, "~> 3.4"},
       {:postgrex, ">= 0.0.0"},
@@ -48,7 +48,7 @@ defmodule Domovik.MixProject do
       {:plug_cowboy, "~> 2.0"},
       {:credo, "~> 1.5", only: [:dev], runtime: false},
 
-      {:pow, "~> 1.0.22"},
+      {:pow, "~> 1.0.24"},
       {:elixir_uuid, "~> 1.2"},
       {:timex, "~> 3.7"},
       {:bamboo, "~> 2.0"},
