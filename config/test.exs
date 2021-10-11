@@ -1,4 +1,4 @@
-use Mix.Config
+import Config
 
 # Configure your database
 #
@@ -19,6 +19,7 @@ config :domovik, Domovik.Repo,
 # you can enable the server option below.
 config :domovik, DomovikWeb.Endpoint,
   http: [port: 4002],
+  secret_key_base: "7CbI2KISn8bXoABIc+lVJdKKC+05YsHD47IUDAnwv6cOl7i156LdmXLVyp+qdjdE",
   server: false
 
 # Print only warnings and errors during test

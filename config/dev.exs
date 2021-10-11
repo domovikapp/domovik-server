@@ -1,4 +1,4 @@
-use Mix.Config
+import Config
 
 # Configure your database
 config :domovik, Domovik.Repo,
@@ -32,6 +32,7 @@ config :domovik, DomovikWeb.Endpoint,
   debug_errors: true,
   code_reloader: true,
   check_origin: false,
+  secret_key_base: "IYxOCvnF0wdx8Dcunzl7P8vHu9YLDgCA5ysywMmMhcqmaxMh2JLszQjL1fn8/Dgn",
   watchers: [
     node: [
       "node_modules/webpack/bin/webpack.js",
@@ -90,4 +91,3 @@ config :phoenix, :stacktrace_depth, 20
 
 # Initialize plugs at runtime for faster development compilation
 config :phoenix, :plug_init_mode, :runtime
-

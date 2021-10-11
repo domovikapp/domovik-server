@@ -1,4 +1,4 @@
-use Mix.Config
+import Config
 
 # For production, don't forget to configure the url host
 # to something meaningful, Phoenix uses this information
@@ -50,14 +50,20 @@ config :logger, level: :info
 #
 # Check `Plug.SSL` for all available options in `force_ssl`.
 
-
 config :domovik, :pow,
   cache_store_backed: Pow.Store.Backend.MnesiaCache
 
 config :domovik,
-  admin_username: "admin",
-  admin_password: "ChangeMe"
+  admin_username: "",
+  admin_password: ""
 
-# Finally import the config/prod.secret.exs which loads secrets
-# and configuration from environment variables.
-import_config "prod.secret.exs"
+config :domovik, Domovik.Pow.Mailer,
+    adapter: Bamboo.MailgunAdapter,
+    api_key: "",
+    domain: "",
+    base_uri: "https://api.eu.mailgun.net/v3"
+  config :domovik, DomovikWeb.Pow.Mailer,
+    adapter: Bamboo.MailgunAdapter,
+    api_key: "",
+    domain: "",
+    base_uri: "https://api.eu.mailgun.net/v3"

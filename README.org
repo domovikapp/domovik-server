@@ -38,20 +38,19 @@ Domovik provides a way to send asynchronous commands from a browser to another o
 
 [[https://domovik.app/images/sendlink.png]]
 **** Privacy First
-Domovik uses an end-to-end encryption scheme such that none of your browsing data ever go in clear through the synchronization server. The advantage is that your privacy is safe; the drawback is that all of your data being encrypted with a key derived from your password, the loss of your password means the loss of all of your synchronized data.
+Domovik uses an end-to-end encryption scheme such that none of your browsing data ever transit in clear through the synchronization server. The advantage is that your privacy is safe; the drawback is that all of your data being encrypted with a key derived from your password, the loss of your password means the loss of all of your synchronized data.
 
 * Install Domovik
-** General requirements
-First, install the following requirements:
+First, clone the Domovik repo =git clone https://github.com/domovikapp/domovik-server=
+** Development
+*** General requirements
 1. [[https://elixir-lang.org/install.html][Install Elixir]]
 2. Install node.js
   + [[https://nodejs.org/en/download/package-manager/][from your package manager]]
   + [[https://nodejs.org/en/download/][manually]]
 3. [[https://www.postgresql.org/download/][Install PostgreSQL]]
 
-Then, clone the Domovik repo: =git clone https://github.com/domovikapp/domovik-server=. The following commands are relative to the root of the cloned repo.
-
-** Development
+*** Run Domovik
 1. Configure your database settings -- /i.e./ username, password & hostname for TCP access or socket & username for socket access -- in =config/dev.exs=;
 2. Setup the project with =mix setup=;
 3. generate development self-signed SSL certificates =mix phx.gen.cert=;
@@ -60,25 +59,48 @@ Then, clone the Domovik repo: =git clone https://github.com/domovikapp/domovik-s
 Domovik is now available at =http://127.0.0.1:4000/session/new= and =https://127.0.0.1:4001/session/new=.
 
 ** Production
-1. Set the environment variable =MIX_ENV= to =prod=.
-2. Copy the =config/prod.secret.exs.template= to =config/prod.secret.exs=. In it:
-   - configure your [[https://hexdocs.pm/bamboo/readme.html#using-adapters][Bamboo mailing adapter]] of choice in =config/prod.exs= -- a mailer is required for registration confirmation and password reset;
-   - change any other setting at your discretion.
-3. Create a PostgreSQL users with the permission to create databases and set the environment variable =DATABASE_URL= to =ecto://[USER]:[PASSWORD]@[HOST]/[DATABASE]=.
-4. Set the environment variable =SECRET_KEY_BASE= to /e.g./ the output of =mix phx.gen.secret=.
-5. Set =admin_username= and =admin_password= in =config/prod.exs=.
-6. Optionally, set the environment variable =PORT= to the desired TCP port (defaults to 4000).
-7. Setup the project with =mix setup=.
-8. Build the web assets with =npm run deploy --prefix ./assets && mix phx.digest=.
-9. Follow [[https://hexdocs.pm/pow/production_checklist.html#required-use-a-persistent-cache-store][the instructions]] to configure [[https://powauth.com/][Pow]], the authentication library.
-10. Finally, launch the server with =mix phx.server=.
+*** Configuration
+Edit =config/prod.exs=:
+  - configure your [[https://hexdocs.pm/bamboo/readme.html#using-adapters][Bamboo mailing adapter]] of choice -- a mailer is required for registration confirmation and account management;
+  - change any other setting at your discretion.
 
+*** Deploy Domovik
+**** Manual deployment
+***** General requirements
+1. [[https://elixir-lang.org/install.html][Install Elixir]]
+2. Install node.js
+  + [[https://nodejs.org/en/download/package-manager/][from your package manager]]
+  + [[https://nodejs.org/en/download/][manually]]
+3. [[https://www.postgresql.org/download/][Install PostgreSQL]]
+
+***** Build Domovik
+1. Set the environment variable =MIX_ENV= to =prod=.
+2. Create a PostgreSQL users with the permission to create databases and set the environment variable =DATABASE_URL= to =ecto://[USER]:[PASSWORD]@[HOST]/[DATABASE]=.
+3. Set the environment variable =SECRET_KEY_BASE= to /e.g./ the output of =mix phx.gen.secret=.
+4. Set =admin_username= and =admin_password= in =config/prod.exs=.
+5. Optionally, set the environment variable =PORT= to the desired TCP port (defaults to 4000).
+6. Setup the project with =mix setup=.
+7. Build the web assets with =npm run deploy --prefix ./assets && mix phx.digest=.
+8. Follow [[https://hexdocs.pm/pow/production_checklist.html#required-use-a-persistent-cache-store][the instructions]] to configure [[https://powauth.com/][Pow]], the authentication library.
+9. Finally, launch the server with =mix phx.server= or use [[https://hexdocs.pm/phoenix/1.6.2/releases.html][Elixir releases]].
+
+**** Docker
+First, build the Docker image:
+#+begin_src shell
+sudo docker container run --rm -it --entrypoint "" -p 127.0.0.1:4000:4000 domovikapp/domovik sh
+#+end_src
+
+Then run the server:
+#+begin_src shell
+sudo docker container run --rm -it -p 127.0.0.1:4000:4000 --name domovik domovikapp/domovik \\
+  -e "DATABASE_URL=ecto://USER:PASSWORD@HOST/DATABASE" \\
+  -e "SECRET_KEY_BASE=xxx"
+#+end_src
+
+*** Web server
 You can then either directly expose [[https://hexdocs.pm/phoenix/using_ssl.html][the bundled HTTP server]], or use a reverse proxy such as /e.g./ [[https://docs.nginx.com/nginx/admin-guide/web-server/reverse-proxy/][Nginx]].
 
 Please note that due to JS cryptography APIs being only available in safe contexts, Domovik should always be accessed over HTTPS.
-
-** Docker
-Coming soon !
 
 * Credits
 Domovik is built around the following technologies:

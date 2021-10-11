@@ -5,7 +5,7 @@
 # is restricted to this project.
 
 # General application configuration
-use Mix.Config
+import Config
 
 config :domovik,
   ecto_repos: [Domovik.Repo]
@@ -13,7 +13,6 @@ config :domovik,
 # Configures the endpoint
 config :domovik, DomovikWeb.Endpoint,
   url: [host: "localhost"],
-  secret_key_base: "Y3V65aHC3K9Jj+pqzjXYyLPlcGyOcosicYv1tJ+gWRFC/DQEipa2sqt/D9pyyeF6",
   render_errors: [view: DomovikWeb.ErrorView, accepts: ~w(html json), layout: false],
   pubsub_server: Domovik.PubSub,
   live_view: [signing_salt: "XYSNdkbn"]
@@ -44,4 +43,4 @@ config :domovik,
 
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.
-import_config "#{Mix.env()}.exs"
+import_config "#{config_env()}.exs"
