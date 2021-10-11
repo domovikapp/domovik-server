@@ -1,0 +1,25 @@
+version: "3.7"
+services:
+  domovik:
+    build: "."
+    ports:
+      - "4000:4000"
+    depends_on:
+      - db
+          # condition: service_healthy  # Uncomment when 3.9 is available
+    environment:
+      - DATABASE_URL=ecto://domovik:secret@db/domovik
+      - SECRET_KEY_BASE=[mix phx.gen.secret]
+  db:
+    image: postgres:latest
+    environment:
+      - POSTGRES_USER=domovik
+      - POSTGRES_PASSWORD=secret
+    volumes:
+      - domovik-db:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "domovik"]
+      interval: 10s
+      start_period: 30s
+volumes:
+  domovik-db:

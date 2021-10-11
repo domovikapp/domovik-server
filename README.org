@@ -97,6 +97,9 @@ sudo docker container run --rm -it -p 127.0.0.1:4000:4000 --name domovik domovik
   -e "SECRET_KEY_BASE=xxx"
 #+end_src
 
+**** Docker Compose
+Edit =docker-compose.yml= and set =SECRET_KEY_BASE= to the output of =mix phx.gen.secret= (or any other similar method), then run =docker-compose up=
+
 *** Web server
 You can then either directly expose [[https://hexdocs.pm/phoenix/using_ssl.html][the bundled HTTP server]], or use a reverse proxy such as /e.g./ [[https://docs.nginx.com/nginx/admin-guide/web-server/reverse-proxy/][Nginx]].
 
