@@ -35,7 +35,7 @@ defmodule Domovik.MixProject do
     [
       {:phoenix, "~> 1.6.2"},
       {:phoenix_ecto, "~> 4.1"},
-      {:ecto_sql, "~> 3.4"},
+      {:ecto_sql, "~> 3.7"},
       {:postgrex, ">= 0.0.0"},
       {:ecto_psql_extras, "~> 0.2"},
       {:phoenix_html, "~> 3.0"},
