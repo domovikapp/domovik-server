@@ -1,4 +1,4 @@
-<script type="text/javascript" src="<%= Routes.static_path(@conn, "/js/session_new.js") %>"></script>
+<script type="text/javascript" src={Routes.static_path(@conn, "/js/session_new.js")}></script>
 <div class="centered-form" style="margin-top: 2rem;">
   <h1>Log in to Дomovik</h1>
   <%= form_for @changeset, @action, [as: :user], fn f -> %>

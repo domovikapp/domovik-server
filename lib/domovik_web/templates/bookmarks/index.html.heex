@@ -1,4 +1,4 @@
-<script type="text/javascript" src="<%= Routes.static_path(@conn, "/js/bookmarks.js") %>"></script>
+<script type="text/javascript" src={Routes.static_path(@conn, "/js/bookmarks.js")}></script>
 <div id="all-tags">
   <%= for browser <- @browsers do %>
     <div class="tag">
@@ -20,10 +20,10 @@
 <div id="bookmarks" ontouchmove>
   <%= for b <- @bookmarks do %>
     <div class="bookmark">
-      <a data-url="<%= b.url %>"
-         data-title="<%= b.title %>"
+      <a data-url={b.url}
+         data-title={b.title}
          href="">
-        [encrypted]
+        [decrypting...]
       </a>
       <span class="tags-list">
         <span class="tag"><%= b.browser.name %></span>

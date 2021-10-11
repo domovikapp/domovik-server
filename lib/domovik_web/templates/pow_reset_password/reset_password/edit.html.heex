@@ -1,4 +1,4 @@
-<script type="text/javascript" src="<%= Routes.static_path(@conn, "/js/reset_password_edit.js") %>"></script>
+<script type="text/javascript" src={Routes.static_path(@conn, "/js/reset_password_edit.js")}></script>
 <%= if @changeset.action do %>
   <div class="alert alert-danger">
     <p>Something went wrong! Please check the errors below.</p>

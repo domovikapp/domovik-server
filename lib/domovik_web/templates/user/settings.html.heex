@@ -1,4 +1,4 @@
-<script type="text/javascript" src="<%= Routes.static_path(@conn, "/js/account.js") %>"></script>
+<script type="text/javascript" src={Routes.static_path(@conn, "/js/account.js")}></script>
 <div id="settings">
   <%= unless Application.get_env(:domovik, :free_instance) do %>
     <div class="section">

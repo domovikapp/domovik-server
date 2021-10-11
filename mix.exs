@@ -4,8 +4,8 @@ defmodule Domovik.MixProject do
   def project do
     [
       app: :domovik,
-      version: "1.1.0",
-      elixir: "~> 1.7",
+      version: "1.1.1",
+      elixir: "~> 1.12",
       elixirc_paths: elixirc_paths(Mix.env()),
       compilers: [:phoenix, :gettext] ++ Mix.compilers(),
       start_permanent: Mix.env() == :prod,
@@ -33,22 +33,22 @@ defmodule Domovik.MixProject do
   # Type `mix help deps` for examples and options.
   defp deps do
     [
-      {:phoenix, "~> 1.5.8"},
+      {:phoenix, "~> 1.6.2"},
       {:phoenix_ecto, "~> 4.1"},
       {:ecto_sql, "~> 3.4"},
       {:postgrex, ">= 0.0.0"},
       {:ecto_psql_extras, "~> 0.2"},
-      {:phoenix_html, "~> 2.11"},
-      {:phoenix_live_reload, "~> 1.2", only: :dev},
-      {:phoenix_live_dashboard, "~> 0.4.0"},
-      {:telemetry_metrics, "~> 0.4"},
-      {:telemetry_poller, "~> 0.4"},
+      {:phoenix_html, "~> 3.0"},
+      {:phoenix_live_reload, "~> 1.3", only: :dev},
+      {:phoenix_live_dashboard, "~> 0.5"},
+      {:telemetry_metrics, "~> 0.6"},
+      {:telemetry_poller, "~> 0.5"},
       {:gettext, "~> 0.11"},
       {:jason, "~> 1.0"},
       {:plug_cowboy, "~> 2.0"},
       {:credo, "~> 1.5", only: [:dev], runtime: false},
 
-      {:pow, "~> 1.0.24"},
+      {:pow, "~> 1.0.25"},
       {:elixir_uuid, "~> 1.2"},
       {:timex, "~> 3.7"},
       {:bamboo, "~> 2.0"},

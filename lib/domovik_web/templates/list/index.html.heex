@@ -1,4 +1,4 @@
-<script type="text/javascript" src="<%= Routes.static_path(@conn, "/js/lists.js") %>"></script>
+<script type="text/javascript" src={Routes.static_path(@conn, "/js/lists.js")}></script>
 
 <%= form_for @changeset, Routes.list_path(@conn, :create), [id: "new-list-form"], fn f-> %>
 <%= if @changeset.action do %>
@@ -32,12 +32,12 @@
     <%= for link <- list.links do %>
       <div class="read-link">
         <img style="vertical-align: middle;" width="16px"
-             data-url="<%= link.favicon %>"
-             src="<%= Routes.static_path(@conn, "/images/tab.png") %>"/>
-        <a data-url="<%= link.url %>"
-           data-title="<%= link.title %>"
-           href="<%= Routes.list_path(@conn, :consume_link, list.uuid, link.id) %>">
-          [encrypted]
+             data-url={link.favicon}
+             src={Routes.static_path(@conn, "/images/tab.png")}/>
+        <a data-url={link.url}
+           data-title={link.title}
+           href={Routes.list_path(@conn, :consume_link, list.uuid, link.id)}>
+          [decrypting...]
         </a>
       </div>
     <% end %>

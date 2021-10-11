@@ -1,4 +1,4 @@
-<script type="text/javascript" src="<%= Routes.static_path(@conn, "/js/browsers.js") %>"></script>
+<script type="text/javascript" src={Routes.static_path(@conn, "/js/browsers.js")}></script>
 <%= if length(@browsers) == 0 do %>
   <h2 style="text-align: center;">Download Domovik for your browser</h2>
   <div id="dl-tabs">
@@ -88,10 +88,10 @@
 
     <%= for {_, tabs} <- windows do %>
       <%= for t <- tabs |> Enum.sort_by(fn t -> t.index end) do %>
-        <div class="tab <%= if t.pinned, do: "pinned" %> <%= if t.active, do: "current-tab", else: "" %>">
-          <img data-url="<%= if t.favicon != "", do: t.favicon, else: '' %>"
-               src="<%= Routes.static_path(@conn, "/images/tab.png") %>" />
-          <a data-title="<%= t.title %>" data-url="<%= t.url %>" href="">[encrypted]</a>
+        <div class="tab {if t.pinned, do: "pinned"} {if t.active, do: "current-tab"}">
+          <img data-url={if t.favicon != "", do: t.favicon, else: ''}
+               src={Routes.static_path(@conn, "/images/tab.png")}/>
+          <a data-title={t.title} data-url={t.url} href="">[decrypting...]</a>
         </div>
       <% end %>
     <% end %>

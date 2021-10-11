@@ -3,7 +3,7 @@
     <p>Something went wrong! Please check the errors below.</p>
   </div>
 <% end %>
-<script type="text/javascript" src="<%= Routes.static_path(@conn, "/js/registration_new.js") %>"></script>
+<script type="text/javascript" src={Routes.static_path(@conn, "/js/registration_new.js")}></script>
 <div class="centered-form ">
   <h1>Sign up to Дomovik</h1>
   <%= form_for @changeset, @action, [as: :user, onsubmit: "return doSubmit(this);"], fn f -> %>
