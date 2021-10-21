@@ -88,7 +88,7 @@
 
     <%= for {_, tabs} <- windows do %>
       <%= for t <- tabs |> Enum.sort_by(fn t -> t.index end) do %>
-        <div class="tab {if t.pinned, do: 'pinned'} {if t.active, do: 'current-tab'}">
+        <div class="tab {if t.pinned, do: 'pinned', else: ''} {if t.active, do: 'current-tab', else: ''}">
           <img data-url={if t.favicon != "", do: t.favicon, else: ''}
                src={Routes.static_path(@conn, "/images/tab.png")}/>
           <a data-title={t.title} data-url={t.url} href="">[decrypting...]</a>
