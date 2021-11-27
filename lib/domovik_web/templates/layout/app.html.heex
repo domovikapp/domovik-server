@@ -28,7 +28,7 @@
             <%= link("My Account",
                 to: Routes.user_path(@conn, :settings),
                 class: [Domovik.Helpers.active_class(@conn, Routes.user_path(@conn, :settings))]) %>
-            <%= link "Logout", to: Routes.pow_session_path(@conn, :delete), method: :delete, class: "logout" %>
+            <%= link "Log out", to: Routes.pow_session_path(@conn, :delete), method: :delete, class: "logout" %>
           </div>
         </nav>
       <% end %>
