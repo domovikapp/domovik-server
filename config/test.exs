@@ -6,12 +6,15 @@ import Config
 # to provide built-in test partitioning in CI environment.
 # Run `mix help test` for more information.
 config :domovik, Domovik.Repo,
+  ## For TCP connection
   # hostname: "localhost",
   # username: "postgres",
   # password: "postgres",
 
-  username: "franklin",
-  socket_dir: "/var/run/postgresql",
+  ## For UNIX socket connection
+  # socket_dir: "/var/run/postgresql",
+  # username: "someone",
+
   database: "domovik_test#{System.get_env("MIX_TEST_PARTITION")}",
   pool: Ecto.Adapters.SQL.Sandbox
 
