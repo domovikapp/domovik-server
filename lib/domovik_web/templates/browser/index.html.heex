@@ -2,8 +2,8 @@
 <%= if length(@browsers) == 0 do %>
   <h2 style="text-align: center;">Download Domovik for your browser</h2>
   <div id="dl-tabs">
-    <span class="dl-tab selected" id="dl-tab-full" href="" onclick="setDL('full');">Domovik</span>
-    <span class="dl-tab"          id="dl-tab-lite" href="" onclick="setDL('lite')">Domovik Lite</span>
+    <span class="dl-tab selected" id="dl-tab-full" onclick="setDL('full');">Domovik</span>
+    <span class="dl-tab"          id="dl-tab-lite" onclick="setDL('lite')">Domovik Lite</span>
   </div>
   <div id="downloads-full">
     <h4 class="empty" style="margin-top: 2rem;">Domovik Full will replace your New Tab page</h4>
@@ -88,7 +88,7 @@
 
     <%= for {_, tabs} <- windows do %>
       <%= for t <- tabs |> Enum.sort_by(fn t -> t.index end) do %>
-        <div class="tab {if t.pinned, do: "pinned"} {if t.active, do: "current-tab"}">
+        <div class="tab {if t.pinned, do: 'pinned'} {if t.active, do: 'current-tab'}">
           <img data-url={if t.favicon != "", do: t.favicon, else: ''}
                src={Routes.static_path(@conn, "/images/tab.png")}/>
           <a data-title={t.title} data-url={t.url} href="">[decrypting...]</a>
