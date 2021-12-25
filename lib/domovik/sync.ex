@@ -34,7 +34,7 @@ defmodule Domovik.Sync do
 
   Return `nil` if the Browser does not exist and raises if more than one entry.
   """
-  def get_user_browser!(uuid, user_id), do: Repo.get_by(Browser, [uuid: uuid, user_id: user_id])
+  def get_user_browser!(uuid, user_id), do: Repo.get_by!(Browser, [uuid: uuid, user_id: user_id])
 
   @doc """
   Creates a browser.

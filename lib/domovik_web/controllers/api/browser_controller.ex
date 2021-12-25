@@ -31,31 +31,19 @@ defmodule DomovikWeb.Api.V1.BrowserController do
       |> put_status(:payment_required)
       |> json(%{error: "maximum browsers count reached"})
     else
-      case Sync.create_browser(user, %{name: name}) do
-        {:ok, %Browser{} = browser} ->
-          conn
-          |> put_status(:created)
-          |> put_resp_header("location", Routes.api_browser_path(conn, :show, browser))
-          |> render("show.json", browser: browser)
-        _ ->
-          conn
-          |> put_status(:unprocessable_entity)
-          |> json(%{error: "incorrect name"})
+      with {:ok, browser} <- Sync.create_browser(user, %{name: name}) do
+        conn
+        |> put_status(:created)
+        |> put_resp_header("location", Routes.api_browser_path(conn, :show, browser))
+        |> render("show.json", browser: browser)
       end
     end
   end
 
   def show(conn, %{"id" => uuid}) do
     user = current_user(conn)
-    case Sync.get_user_browser!(uuid, user.id) do
-      browser when not is_nil(browser) ->
-        render(conn, "show.json", browser: browser |> Repo.preload([:tabs]))
-
-      nil ->
-        conn
-        |> put_status(:not_found)
-        |> json(%{error: "browser not found"})
-    end
+    browser = Sync.get_user_browser!(uuid, user.id)
+    render(conn, "show.json", browser: browser |> Repo.preload([:tabs]))
   end
 
   def update(conn, %{"id" => uuid, "name" => new_name}) do
@@ -87,17 +75,9 @@ defmodule DomovikWeb.Api.V1.BrowserController do
   def upsert_tab(conn, %{"uuid" => uuid, "tab" => tab}) do
     user = current_user(conn)
 
-    case Sync.get_user_browser!(uuid, user.id) do
-      browser when not is_nil(browser) ->
-        case Sync.upsert_tab(browser, tab) do
-          {:ok, _} -> conn |> send_resp(:ok, "")
-          {:error, _} ->
-            conn |> send_resp(:not_found, "")
-        end
-      nil ->
-        conn
-        |> put_status(:gone)
-        |> json(%{error: "unlinked"})
+    with browser <- Sync.get_user_browser!(uuid, user.id),
+         {:ok, _} <- Sync.upsert_tab(browser, tab) do
+      send_resp(conn, :ok, "")
     end
   end
 

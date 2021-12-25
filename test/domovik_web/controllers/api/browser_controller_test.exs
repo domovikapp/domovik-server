@@ -12,6 +12,20 @@ defmodule DomovikWeb.Api.BrowserControllerTest do
   @password "setup12341234"
   @valid_params %{"user" => %{"email" => "test@example.com", "password" => @password}}
 
+  defp create_browser(%{conn: %Plug.Conn{assigns: %{current_user: user}}}) do
+    browser = fixture(:browser, user)
+    %{browser: browser}
+  end
+
+  defp assign_user(%{conn: conn}) do
+    user = %User{}
+    |> User.changeset(%{email: "test@example.com", password: @password, password_confirmation: @password})
+    |> Repo.insert!()
+
+    conn = Pow.Plug.assign_current_user(conn, user, otp_app: :domovik)
+    {:ok, conn: conn}
+  end
+
   def fixture(:browser, user) do
     {:ok, browser} = Sync.create_browser(user, @create_attrs)
 
@@ -68,19 +82,5 @@ defmodule DomovikWeb.Api.BrowserControllerTest do
         get(conn, Routes.api_browser_path(conn, :show, browser))
       end
     end
-  end
-
-  defp create_browser(%{conn: %Plug.Conn{assigns: %{current_user: user}}}) do
-    browser = fixture(:browser, user)
-    %{browser: browser}
-  end
-
-  defp assign_user(%{conn: conn}) do
-    user = %User{}
-    |> User.changeset(%{email: "test@example.com", password: @password, password_confirmation: @password})
-    |> Repo.insert!()
-
-    conn = Pow.Plug.assign_current_user(conn, user, otp_app: :domovik)
-    {:ok, conn: conn}
   end
 end
