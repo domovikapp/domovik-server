@@ -44,6 +44,7 @@ defmodule DomovikWeb.Endpoint do
 
   # This one has to go there because it mus come *before* the body parser
   plug DomovikWeb.StripeWebhooksPlug
+
   plug Plug.Parsers,
     parsers: [:urlencoded, :multipart, :json],
     pass: ["*/*"],

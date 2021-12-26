@@ -31,9 +31,15 @@ defmodule DomovikWeb.BrowserControllerTest do
   end
 
   defp assign_user(%{conn: conn}) do
-    user = %User{}
-    |> User.changeset(%{email: "test@example.com", password: @password, password_confirmation: @password})
-    |> Repo.insert!()
+    user =
+      %User{}
+      |> User.changeset(%{
+        email: "test@example.com",
+        password: @password,
+        password_confirmation: @password
+      })
+      |> Repo.insert!()
+
     conn = Pow.Plug.assign_current_user(conn, user, otp_app: :domovik)
     {:ok, conn: conn}
   end

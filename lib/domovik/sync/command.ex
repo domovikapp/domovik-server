@@ -25,6 +25,7 @@ defmodule Domovik.Sync.Command do
     |> validate_required([:payload])
     |> put_assoc(:source, source)
     |> put_assoc(:target, target)
+
     # |> validate_length(:payload, max: 10000)
   end
 end

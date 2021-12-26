@@ -50,20 +50,20 @@ config :logger, level: :info
 #
 # Check `Plug.SSL` for all available options in `force_ssl`.
 
-config :domovik, :pow,
-  cache_store_backed: Pow.Store.Backend.MnesiaCache
+config :domovik, :pow, cache_store_backed: Pow.Store.Backend.MnesiaCache
 
 config :domovik,
   admin_username: "",
   admin_password: ""
 
 config :domovik, Domovik.Pow.Mailer,
-    adapter: Bamboo.MailgunAdapter,
-    api_key: "",
-    domain: "",
-    base_uri: "https://api.eu.mailgun.net/v3"
-  config :domovik, DomovikWeb.Pow.Mailer,
-    adapter: Bamboo.MailgunAdapter,
-    api_key: "",
-    domain: "",
-    base_uri: "https://api.eu.mailgun.net/v3"
+  adapter: Bamboo.MailgunAdapter,
+  api_key: "",
+  domain: "",
+  base_uri: "https://api.eu.mailgun.net/v3"
+
+config :domovik, DomovikWeb.Pow.Mailer,
+  adapter: Bamboo.MailgunAdapter,
+  api_key: "",
+  domain: "",
+  base_uri: "https://api.eu.mailgun.net/v3"

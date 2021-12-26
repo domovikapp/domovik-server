@@ -12,9 +12,13 @@ defmodule DomovikWeb.Api.V1.BrowserController do
 
   defp too_many_browsers(user) do
     free_browsers_count = Application.get_env(:domovik, :free_browsers)
-    browsers_count = Repo.one(from b in Browser,
-      where: b.user_id == ^user.id,
-      select: count(b.id))
+
+    browsers_count =
+      Repo.one(
+        from b in Browser,
+          where: b.user_id == ^user.id,
+          select: count(b.id)
+      )
 
     user.subscription == "free" and browsers_count > free_browsers_count
   end
@@ -26,6 +30,7 @@ defmodule DomovikWeb.Api.V1.BrowserController do
 
   def create(conn, %{"name" => name} = _params) do
     user = current_user(conn)
+
     if too_many_browsers(user) do
       conn
       |> put_status(:payment_required)
@@ -63,6 +68,7 @@ defmodule DomovikWeb.Api.V1.BrowserController do
         if timestamp > browser.last_update do
           Sync.update_tabs(browser, tabs, timestamp)
         end
+
         render(conn, "show.json", browser: browser)
 
       nil ->
@@ -91,6 +97,7 @@ defmodule DomovikWeb.Api.V1.BrowserController do
         else
           conn |> send_resp(:not_found, "")
         end
+
       nil ->
         conn
         |> put_status(:gone)

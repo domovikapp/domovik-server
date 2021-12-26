@@ -14,9 +14,15 @@ defmodule Domovik.SyncTest do
     @invalid_attrs %{name: nil}
 
     def user_fixture() do
-      {:ok, user} = %User{}
-      |> User.changeset(%{email: "test@example.com", password: @password, password_confirmation: @password})
-      |> Repo.insert()
+      {:ok, user} =
+        %User{}
+        |> User.changeset(%{
+          email: "test@example.com",
+          password: @password,
+          password_confirmation: @password
+        })
+        |> Repo.insert()
+
       user
     end
 

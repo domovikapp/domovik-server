@@ -12,7 +12,7 @@ defmodule DomovikWeb.Api.V1.BookmarksController do
   Returns all the bookmarks of the user making the API call
   """
   def index(conn, _) do
-    bookmarks = conn |> current_user |> Bookmarks.user_bookmarks
+    bookmarks = conn |> current_user |> Bookmarks.user_bookmarks()
     render(conn, "bookmarks.json", bookmarks: bookmarks)
   end
 

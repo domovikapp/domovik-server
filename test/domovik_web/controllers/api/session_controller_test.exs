@@ -9,7 +9,11 @@ defmodule DomovikWeb.API.V1.SessionControllerTest do
   setup do
     user =
       %User{}
-      |> User.changeset(%{email: "test@example.com", password: @password, password_confirmation: @password})
+      |> User.changeset(%{
+        email: "test@example.com",
+        password: @password,
+        password_confirmation: @password
+      })
       |> Repo.insert!()
 
     {:ok, user: user}
@@ -20,7 +24,7 @@ defmodule DomovikWeb.API.V1.SessionControllerTest do
     @invalid_params %{"user" => %{"email" => "test@example.com", "password" => "invalid"}}
 
     test "with valid params", %{conn: conn} do
-      conn = post conn, Routes.session_path(conn, :create, @valid_params)
+      conn = post(conn, Routes.session_path(conn, :create, @valid_params))
 
       assert json = json_response(conn, 200)
       assert json["data"]["access_token"]
@@ -28,7 +32,7 @@ defmodule DomovikWeb.API.V1.SessionControllerTest do
     end
 
     test "with invalid params", %{conn: conn} do
-      conn = post conn, Routes.session_path(conn, :create, @invalid_params)
+      conn = post(conn, Routes.session_path(conn, :create, @invalid_params))
 
       assert json = json_response(conn, 401)
       assert json["error"]["message"] == "Invalid email or password"

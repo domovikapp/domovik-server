@@ -26,7 +26,11 @@ defmodule Domovik.Sync do
   end
 
   def user_browsers(user, uuids) do
-    Repo.all(from b in Browser, where: b.user_id == ^user.id and b.uuid in ^uuids, order_by: b.inserted_at)
+    Repo.all(
+      from b in Browser,
+        where: b.user_id == ^user.id and b.uuid in ^uuids,
+        order_by: b.inserted_at
+    )
   end
 
   @doc """
@@ -34,7 +38,7 @@ defmodule Domovik.Sync do
 
   Return `nil` if the Browser does not exist and raises if more than one entry.
   """
-  def get_user_browser!(uuid, user_id), do: Repo.get_by!(Browser, [uuid: uuid, user_id: user_id])
+  def get_user_browser!(uuid, user_id), do: Repo.get_by!(Browser, uuid: uuid, user_id: user_id)
 
   @doc """
   Creates a browser.
@@ -102,39 +106,47 @@ defmodule Domovik.Sync do
   end
 
   def update_tabs(%Browser{} = browser, tabs, timestamp) do
-    m = Multi.new()
-    |> Multi.delete_all(:clear_old_tabs, from(t in Tab, where: t.browser_id == ^browser.id))
+    m =
+      Multi.new()
+      |> Multi.delete_all(:clear_old_tabs, from(t in Tab, where: t.browser_id == ^browser.id))
 
-    Enum.reduce(tabs, m, fn(tab, m) ->
-      Multi.insert(m,
+    Enum.reduce(tabs, m, fn tab, m ->
+      Multi.insert(
+        m,
         "insert_#{tab["window"]}_#{tab["index"]}_#{timestamp}",
-        Tab.changeset(%Tab{browser_id: browser.id}, tab))
+        Tab.changeset(%Tab{browser_id: browser.id}, tab)
+      )
     end)
     |> Multi.update(:update_timestamp, Ecto.Changeset.change(browser, last_update: timestamp))
     |> Repo.transaction()
   end
 
   def delete_tab(browser, tab_session_id) do
-    {count, _} = from(t in Tab, where: t.session_id == ^tab_session_id and t.browser_id == ^browser.id)
-    |> Repo.delete_all
+    {count, _} =
+      from(t in Tab, where: t.session_id == ^tab_session_id and t.browser_id == ^browser.id)
+      |> Repo.delete_all()
+
     count
   end
 
   def upsert_tab(browser, new_tab) do
-    r = case Repo.get_by(Tab, [browser_id: browser.id, session_id: new_tab["session_id"]]) do
-          nil -> %Tab{browser_id: browser.id}
-          tab -> tab
-        end
-        |> Tab.changeset(new_tab)
-        |> Repo.insert_or_update
+    r =
+      case Repo.get_by(Tab, browser_id: browser.id, session_id: new_tab["session_id"]) do
+        nil -> %Tab{browser_id: browser.id}
+        tab -> tab
+      end
+      |> Tab.changeset(new_tab)
+      |> Repo.insert_or_update()
 
     case r do
       {:ok, new_tab} ->
         if new_tab.active do
-          from(t in Tab, where: t.browser_id == ^browser.id and t.id != ^(new_tab.id))
+          from(t in Tab, where: t.browser_id == ^browser.id and t.id != ^new_tab.id)
           |> Repo.update_all(set: [active: false])
+
           {:ok, new_tab}
         end
+
       x ->
         x
     end
@@ -143,21 +155,27 @@ defmodule Domovik.Sync do
   def create_command(source, target, payload) do
     %Command{}
     |> Command.changeset(source, target, %{payload: payload})
-    |> Repo.insert
+    |> Repo.insert()
   end
 
   def clear_command_queue(%Browser{} = browser) do
-    from(c in Command, where: c.target_id == ^browser.id) |> Repo.delete_all
+    from(c in Command, where: c.target_id == ^browser.id) |> Repo.delete_all()
   end
 
   def update_bookmarks(%User{} = user, %Browser{} = browser, bookmarks) do
-    m = Multi.new()
-    |> Multi.delete_all(:clear_old_bookmarks, from(b in Bookmark, where: b.browser_id == ^browser.id and b.user_id == ^user.id))
+    m =
+      Multi.new()
+      |> Multi.delete_all(
+        :clear_old_bookmarks,
+        from(b in Bookmark, where: b.browser_id == ^browser.id and b.user_id == ^user.id)
+      )
 
-    Enum.reduce(bookmarks, m, fn(bookmark, m) ->
-      Multi.insert(m,
+    Enum.reduce(bookmarks, m, fn bookmark, m ->
+      Multi.insert(
+        m,
         "insert_#{bookmark["url"]}_#{DateTime.utc_now()}",
-        Bookmark.changeset(%Bookmark{}, user, browser, bookmark))
+        Bookmark.changeset(%Bookmark{}, user, browser, bookmark)
+      )
     end)
     |> Repo.transaction()
   end

@@ -22,7 +22,7 @@ defmodule DomovikWeb.Pow.Mailer do
   @impl true
   def process(email) do
     case deliver_later(email) do
-      {:ok, _} -> Logger.debug("E-mail sent: #{inspect email}")
+      {:ok, _} -> Logger.debug("E-mail sent: #{inspect(email)}")
       {:error, e} -> Logger.error("Error while sending an email: #{e}")
     end
   end

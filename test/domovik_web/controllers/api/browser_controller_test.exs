@@ -18,9 +18,14 @@ defmodule DomovikWeb.Api.BrowserControllerTest do
   end
 
   defp assign_user(%{conn: conn}) do
-    user = %User{}
-    |> User.changeset(%{email: "test@example.com", password: @password, password_confirmation: @password})
-    |> Repo.insert!()
+    user =
+      %User{}
+      |> User.changeset(%{
+        email: "test@example.com",
+        password: @password,
+        password_confirmation: @password
+      })
+      |> Repo.insert!()
 
     conn = Pow.Plug.assign_current_user(conn, user, otp_app: :domovik)
     {:ok, conn: conn}
@@ -61,14 +66,16 @@ defmodule DomovikWeb.Api.BrowserControllerTest do
   describe "update browser" do
     setup [:assign_user, :create_browser]
 
-    test "renders browser when data is valid", %{conn: conn, browser: %Browser{uuid: id} = browser} do
+    test "renders browser when data is valid", %{
+      conn: conn,
+      browser: %Browser{uuid: id} = browser
+    } do
       conn1 = put(conn, Routes.api_browser_path(conn, :update, browser.uuid), %{name: "NEW NAME"})
       assert %{"uuid" => ^id} = json_response(conn1, 200)["data"]
 
       conn2 = get(conn, Routes.api_browser_path(conn, :show, id))
       assert %{"name" => "NEW NAME"} = json_response(conn2, 200)["data"]
     end
-
   end
 
   describe "delete browser" do

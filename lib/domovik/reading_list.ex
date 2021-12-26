@@ -13,12 +13,11 @@ defmodule Domovik.ReadingList do
     List.changeset(list, attrs)
   end
 
-
   def user_lists(user) do
     Repo.all(from l in List, where: l.user_id == ^user.id)
   end
 
-  def user_list(uuid, user), do: Repo.get_by(List, [uuid: uuid, user_id: user.id])
+  def user_list(uuid, user), do: Repo.get_by(List, uuid: uuid, user_id: user.id)
 
   def create_list(user, attrs \\ %{}) do
     %List{uuid: UUID.uuid1(), user_id: user.id}

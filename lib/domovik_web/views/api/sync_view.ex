@@ -12,14 +12,14 @@ defmodule DomovikWeb.Api.V1.BrowserView do
 
   def render("browser.json", %{browser: browser}) do
     if Ecto.assoc_loaded?(browser.tabs) do
-      %{name: browser.name,
+      %{
+        name: browser.name,
         uuid: browser.uuid,
         last_update: browser.last_update,
-        tabs: render_many(browser.tabs, TabView, "show.json")}
+        tabs: render_many(browser.tabs, TabView, "show.json")
+      }
     else
-        %{name: browser.name,
-          uuid: browser.uuid,
-          last_update: browser.last_update}
+      %{name: browser.name, uuid: browser.uuid, last_update: browser.last_update}
     end
   end
 
@@ -32,13 +32,15 @@ defmodule DomovikWeb.Api.V1.TabView do
   use DomovikWeb, :view
 
   def render("show.json", %{tab: tab}) do
-    %{url: tab.url,
+    %{
+      url: tab.url,
       title: tab.title,
       favicon: tab.favicon,
       active: tab.active,
       pinned: tab.pinned,
       window: tab.window,
-      index: tab.index}
+      index: tab.index
+    }
   end
 end
 

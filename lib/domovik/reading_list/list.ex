@@ -6,7 +6,7 @@ defmodule Domovik.ReadingList.List do
   use Ecto.Schema
   import Ecto.Changeset
 
-  @derive{Phoenix.Param, key: :uuid}
+  @derive {Phoenix.Param, key: :uuid}
   schema "reading_lists" do
     field :uuid, :string
     field :name, :string

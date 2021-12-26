@@ -1,6 +1,7 @@
 defmodule DomovikWeb.Router do
   use DomovikWeb, :router
   use Pow.Phoenix.Router
+
   use Pow.Extension.Phoenix.Router,
     extensions: [PowResetPassword, PowEmailConfirmation]
 
@@ -71,7 +72,6 @@ defmodule DomovikWeb.Router do
     end
   end
 
-
   # Authenticated paths
   scope "/", DomovikWeb do
     pipe_through [:browser, :protected]
@@ -82,7 +82,7 @@ defmodule DomovikWeb.Router do
     # Reading lists
     scope "/lists" do
       resources "/", ListController
-      get       "/:id/:link_id/consume", ListController, :consume_link
+      get "/:id/:link_id/consume", ListController, :consume_link
     end
 
     # Bookmarks management
@@ -105,8 +105,6 @@ defmodule DomovikWeb.Router do
     end
   end
 
-
-
   scope "/api/v1", DomovikWeb.Api.V1 do
     pipe_through :api
 
@@ -120,7 +118,7 @@ defmodule DomovikWeb.Router do
     # Browsers management
     resources "/browsers", BrowserController
     post "/browsers/:id/command", BrowserController, :new_command
-    get  "/browsers/:id/command", BrowserController, :get_pending
+    get "/browsers/:id/command", BrowserController, :get_pending
 
     # Tabs management
     post "/browsers/tabs", BrowserController, :sync_tabs
@@ -128,22 +126,22 @@ defmodule DomovikWeb.Router do
     delete "/browsers/:uuid/tabs/:tab_session_id", BrowserController, :delete_tab
 
     # Lists management
-    get  "/lists", ListController, :index
-    post "/lists",  ListController, :create
+    get "/lists", ListController, :index
+    post "/lists", ListController, :create
     ## Lists content management
-    get    "/lists/:id", ListController, :show
-    post   "/lists/:id", ListController, :add_link
+    get "/lists/:id", ListController, :show
+    post "/lists/:id", ListController, :add_link
     delete "/lists/:id/:link_id", ListController, :delete_link
 
     # Bookmarks management
-    get  "/bookmarks", BookmarksController, :index
-    get  "/bookmarks/:uuid", BookmarksController, :index_others
+    get "/bookmarks", BookmarksController, :index
+    get "/bookmarks/:uuid", BookmarksController, :index_others
     post "/bookmarks", BookmarksController, :create
-    put  "/bookmarks", BookmarksController, :sync_all
+    put "/bookmarks", BookmarksController, :sync_all
   end
 
-
   import Phoenix.LiveDashboard.Router
+
   scope "/" do
     if Mix.env() in [:dev, :test] do
       pipe_through :browser
@@ -155,7 +153,6 @@ defmodule DomovikWeb.Router do
       metrics: DomovikWeb.Telemetry,
       ecto_repos: [Domovik.Repo]
   end
-
 
   if Mix.env() in [:dev, :test] do
     forward "/sent_emails", Bamboo.SentEmailViewerPlug

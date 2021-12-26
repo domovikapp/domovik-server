@@ -47,8 +47,6 @@ defmodule Domovik.MixProject do
       {:jason, "~> 1.0"},
       {:plug_cowboy, "~> 2.0"},
       {:credo, "~> 1.6", only: [:dev], runtime: false},
-
-
       {:pow, "~> 1.0.25"},
       {:elixir_uuid, "~> 1.2"},
       {:timex, "~> 3.7"},

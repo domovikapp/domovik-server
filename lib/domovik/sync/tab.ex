@@ -25,7 +25,17 @@ defmodule Domovik.Sync.Tab do
   @doc false
   def changeset(tab, attrs) do
     tab
-    |> cast(attrs, [:url, :favicon, :title, :browser_id, :active, :index, :pinned, :window, :session_id])
+    |> cast(attrs, [
+      :url,
+      :favicon,
+      :title,
+      :browser_id,
+      :active,
+      :index,
+      :pinned,
+      :window,
+      :session_id
+    ])
     |> validate_required([:url, :title, :browser_id])
     |> validate_length(:url, max: 8192)
     |> validate_length(:title, max: 8192)
