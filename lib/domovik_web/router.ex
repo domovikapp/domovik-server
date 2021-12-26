@@ -134,10 +134,9 @@ defmodule DomovikWeb.Router do
     delete "/lists/:id/:link_id", ListController, :delete_link
 
     # Bookmarks management
-    get "/bookmarks", BookmarksController, :index
-    get "/bookmarks/:uuid", BookmarksController, :index_others
-    post "/bookmarks", BookmarksController, :create
+    resources "/bookmarks", BookmarksController, except: [:update, :new, :edit]
     put "/bookmarks", BookmarksController, :sync_all
+    get "/bookmarks/:uuid", BookmarksController, :index_others
   end
 
   import Phoenix.LiveDashboard.Router

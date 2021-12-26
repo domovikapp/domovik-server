@@ -9,6 +9,16 @@ defmodule Domovik.Bookmarks do
 
   alias Domovik.Bookmarks.Bookmark
 
+  def create_bookmark(user, browser, bookmark) do
+    %Bookmark{}
+    |> Bookmark.changeset(user, browser, bookmark)
+    |> Repo.insert()
+  end
+
+  def delete_bookmark(%Bookmark{} = bookmark) do
+    Repo.delete(bookmark)
+  end
+
   def user_bookmarks(user) do
     Repo.all(from b in Bookmark, where: b.user_id == ^user.id)
   end
@@ -17,15 +27,14 @@ defmodule Domovik.Bookmarks do
     Repo.all(from b in Bookmark, where: b.user_id == ^user.id and b.browser_id != ^browser.id)
   end
 
-  def user_bookmark(user, id), do: Repo.get_by(Bookmark, [user_id: user.id, id: id])
+  # Get a bookmark and ensure that the bookmark actually belong to the user
+  def get_bookmark!(user, id), do: Repo.get_by!(Bookmark, user_id: user.id, id: id)
 
   def bookmarks_for_browsers(user, uuids) do
-    Repo.all(from b in Bookmark, where: b.user_id == ^user.id and b.browser_id in ^uuids, order_by: :title)
-  end
-
-  def create_bookmark(user, bookmark, tags) do
-    %Bookmark{}
-    |> Bookmark.changeset(user, bookmark, tags)
-    |> Repo.insert
+    Repo.all(
+      from b in Bookmark,
+        where: b.user_id == ^user.id and b.browser_id in ^uuids,
+        order_by: :title
+    )
   end
 end

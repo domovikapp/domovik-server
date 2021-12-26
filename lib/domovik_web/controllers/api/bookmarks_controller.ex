@@ -13,7 +13,7 @@ defmodule DomovikWeb.Api.V1.BookmarksController do
   """
   def index(conn, _) do
     bookmarks = conn |> current_user |> Bookmarks.user_bookmarks()
-    render(conn, "bookmarks.json", bookmarks: bookmarks)
+    render(conn, "index.json", bookmarks: bookmarks)
   end
 
   @doc """
@@ -24,21 +24,37 @@ defmodule DomovikWeb.Api.V1.BookmarksController do
     browser = Sync.get_user_browser!(uuid, current_user(conn).id)
     user = current_user(conn)
     bookmarks = Bookmarks.other_browsers_bookmarks(user, browser)
-    render(conn, "bookmarks.json", bookmarks: bookmarks)
+    render(conn, "index.json", bookmarks: bookmarks)
+  end
+
+  def show(conn, %{"id" => id}) do
+    user = current_user(conn)
+    bookmark = Bookmarks.get_bookmark!(user, id)
+    render(conn, "show.json", bookmark: bookmark)
   end
 
   @doc """
   Creates a new bookmarks for the user making the API call,
   including the mentioned tags if needed
   """
-  def create(conn, %{"bookmark" => bookmark, "tags" => tags}) do
+  def create(conn, %{"bookmark" => bookmark, "uuid" => uuid}) do
     user = current_user(conn)
+    browser = Sync.get_user_browser!(uuid, user.id)
 
-    case Bookmarks.create_bookmark(user, bookmark, tags) do
-      {:ok, _bookmark} ->
-        send_resp(conn, :created, "")
-      _ ->
-        send_resp(conn, :bad_request, "")
+    with {:ok, bookmark} <- Bookmarks.create_bookmark(user, browser, bookmark) do
+      conn
+      |> put_status(:created)
+      |> put_resp_header("location", Routes.api_bookmarks_path(conn, :show, bookmark))
+      |> render("show.json", bookmark: bookmark)
+    end
+  end
+
+  def delete(conn, %{"id" => id}) do
+    user = current_user(conn)
+    bookmark = Bookmarks.get_bookmark!(user, id)
+
+    with {:ok, _} <- Bookmarks.delete_bookmark(bookmark) do
+      send_resp(conn, :no_content, "")
     end
   end
 
