@@ -40,4 +40,5 @@ npm-debug.log
 package-lock.json
 priv/cert
 
+# Mnesia files
 Mnesia.*/

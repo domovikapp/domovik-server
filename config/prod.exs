@@ -52,6 +52,7 @@ config :logger, level: :info
 
 config :domovik, :pow, cache_store_backed: Pow.Store.Backend.MnesiaCache
 
+# Superuser login & password
 config :domovik,
   admin_username: "",
   admin_password: ""

@@ -59,12 +59,10 @@ First, clone the Domovik repo =git clone https://github.com/domovikapp/domovik-s
 Domovik is now available at =http://127.0.0.1:4000/session/new= and =https://127.0.0.1:4001/session/new=.
 
 ** Production
-*** Configuration
-Edit =config/prod.exs= to your discretion.
-
 *** Deploy Domovik
 **** Manual deployment
 ***** General requirements
+1. Have a Python 2 interpreter available
 1. [[https://elixir-lang.org/install.html][Install Elixir]]
 2. Install node.js
   + [[https://nodejs.org/en/download/package-manager/][from your package manager]]
