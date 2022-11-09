@@ -6,9 +6,6 @@ defmodule Domovik.Users.User do
   use Ecto.Schema
   use Pow.Ecto.Schema
 
-  use Pow.Extension.Ecto.Schema,
-    extensions: [PowResetPassword, PowEmailConfirmation]
-
   import Ecto.Changeset
 
   schema "users" do
@@ -28,7 +25,6 @@ defmodule Domovik.Users.User do
   def changeset(user, attrs \\ %{}) do
     user
     |> pow_changeset(attrs)
-    |> pow_extension_changeset(attrs)
     |> validate_format(:email, ~r/@/)
     |> validate_length(:email, max: 500)
     |> cast(attrs, [:want_emails])

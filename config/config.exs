@@ -31,8 +31,6 @@ config :domovik, :pow,
   users_context: Domovik.Users,
   repo: Domovik.Repo,
   web_module: DomovikWeb,
-  extensions: [PowResetPassword, PowEmailConfirmation],
-  controller_callbacks: Pow.Extension.Phoenix.ControllerCallbacks,
   mailer_backend: DomovikWeb.Pow.Mailer,
   routes_backend: DomovikWeb.Pow.Routes,
   web_mailer_module: DomovikWeb

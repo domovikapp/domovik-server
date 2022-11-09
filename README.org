@@ -60,9 +60,7 @@ Domovik is now available at =http://127.0.0.1:4000/session/new= and =https://127
 
 ** Production
 *** Configuration
-Edit =config/prod.exs=:
-  - configure your [[https://hexdocs.pm/bamboo/readme.html#using-adapters][Bamboo mailing adapter]] of choice -- a mailer is required for registration confirmation and account management;
-  - change any other setting at your discretion.
+Edit =config/prod.exs= to your discretion.
 
 *** Deploy Domovik
 **** Manual deployment

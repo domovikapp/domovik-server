@@ -10,7 +10,7 @@ import Config
 # which you should run after static files are built and
 # before starting your production server.
 config :domovik, DomovikWeb.Endpoint,
-  url: [host: "domovik.app", scheme: "https", port: 443],
+  url: [host: "example.org", scheme: "https", port: 443],
   cache_static_manifest: "priv/static/cache_manifest.json"
 
 # Do not print debug messages in production
@@ -55,15 +55,3 @@ config :domovik, :pow, cache_store_backed: Pow.Store.Backend.MnesiaCache
 config :domovik,
   admin_username: "",
   admin_password: ""
-
-config :domovik, Domovik.Pow.Mailer,
-  adapter: Bamboo.MailgunAdapter,
-  api_key: "",
-  domain: "",
-  base_uri: "https://api.eu.mailgun.net/v3"
-
-config :domovik, DomovikWeb.Pow.Mailer,
-  adapter: Bamboo.MailgunAdapter,
-  api_key: "",
-  domain: "",
-  base_uri: "https://api.eu.mailgun.net/v3"

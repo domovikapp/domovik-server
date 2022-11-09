@@ -97,11 +97,6 @@
         <%= label f, Pow.Ecto.Schema.user_id_field(@changeset) %>
         <%= error_tag f, Pow.Ecto.Schema.user_id_field(@changeset) %>
         <%= text_input f, Pow.Ecto.Schema.user_id_field(@changeset) %>
-        <%= if @changeset.data.unconfirmed_email do %>
-          <div>
-            <p>Click the link in the confirmation email to change your email to <%= content_tag(:span, @changeset.data.unconfirmed_email) %>.</p>
-          </div>
-        <% end %>
 
         <%= label f, :current_passphrase, "Current password" %>
         <%= error_tag f, :current_password %>

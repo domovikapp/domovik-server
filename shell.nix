@@ -2,6 +2,6 @@
 
 pkgs.mkShell {
   buildInputs = [
-    pkgs.elixir pkgs.nodejs pkgs.postgresql
+    pkgs.elixir pkgs.nodejs pkgs.postgresql pkgs.python2
   ];
 }
