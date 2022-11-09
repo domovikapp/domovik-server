@@ -39,3 +39,5 @@ npm-debug.log
 .elixir_ls/
 package-lock.json
 priv/cert
+
+Mnesia.*/
