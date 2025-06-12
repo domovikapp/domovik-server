@@ -11,7 +11,7 @@ config :domovik, Domovik.Repo,
   # socket_dir: "/var/run/postgresql",
   # username: "someone",
 
-  database: "domovik_dev",
+  database: "franklin",
   show_sensitive_data_on_connection_error: true,
   pool_size: 10
 

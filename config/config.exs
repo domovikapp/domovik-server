@@ -8,7 +8,8 @@
 import Config
 
 config :domovik,
-  ecto_repos: [Domovik.Repo]
+  ecto_repos: [Domovik.Repo],
+  generators: [timestamp_type: :utc_datetime]
 
 # Configures the endpoint
 config :domovik, DomovikWeb.Endpoint,
