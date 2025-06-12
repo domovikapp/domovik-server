@@ -42,3 +42,13 @@ priv/cert
 
 # Mnesia files
 Mnesia.*/
+
+# Devenv
+.devenv*
+devenv.local.nix
+
+# direnv
+.direnv
+
+# pre-commit
+.pre-commit-config.yaml
