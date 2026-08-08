@@ -4,13 +4,10 @@
   cachix.enable = false;
 
   # https://devenv.sh/packages/
-  packages = [ pkgs.git ];
+  packages = [ pkgs.git pkgs.inotify-tools ];
 
   # https://devenv.sh/languages/
   languages.elixir.enable = true;
-
-  # https://devenv.sh/processes/
-  # processes.cargo-watch.exec = "cargo-watch";
 
   # https://devenv.sh/services/
   services.postgres.enable = true;
@@ -29,5 +26,22 @@
   '';
 
   # https://devenv.sh/git-hooks/
-  # git-hooks.hooks.shellcheck.enable = true;
+  git-hooks.hooks = {
+    actionlint = {
+      enable = true;
+    };
+    check-merge-conflicts.enable = true;
+    end-of-file-fixer.enable = true;
+    mix-format.enable = true;
+    mixed-line-endings.enable = true;
+    ripsecrets.enable = true;
+    trim-trailing-whitespace.enable = true;
+    typos = {
+      enable = true;
+      settings = {
+        write = true;
+        configPath = "typos.toml";
+      };
+    };
+  };
 }
